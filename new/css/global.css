@@ -1,0 +1,419 @@
+@font-face{
+	font-family: helvetica neue;
+	src:url('../icon/HelveticaNeue.ttf');
+}
+body{
+	font:14px/150% helvetica neue,Microsoft YaHei,Arial,Verdana,"\5b8b\4f53" ;
+}
+ul,li{
+	list-style:none;
+}
+p,ul,li{
+	margin:0;
+	padding:0;
+}
+@font-face {font-family: "iconfont";
+	src: url('../icon/iconfont.eot?t=1476094407'); /* IE9*/
+	src: url('../icon/iconfont.eot?t=1476094407#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('../icon/iconfont.woff?t=1476094407') format('woff'), /* chrome, firefox */
+	url('../icon/iconfont.ttf?t=1476094407') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+	url('../icon/iconfont.svg?t=1476094407#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+	font-family:"iconfont" !important;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	margin-right: 5px;
+}
+.icon-l{
+	font-size:32px;
+}
+.icon-m{
+	font-size:20px;
+}
+.icon-s{
+	font-size:15px;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    color: #0c0c0c;
+    background-color: #ffdea5;
+    border-color: #ddd;
+	font-weight:bold;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+a:hover,a:focus{
+	text-decoration: none;
+	color:#29c3ff;
+}
+/*-----------other---------*/
+a {
+    color: #888;
+    text-decoration: none;
+}
+.panel-body {
+	padding: 8px;
+}
+.panel {
+    margin-bottom: 10px;
+}
+.breadcrumb {
+	margin-bottom: 3px;
+} 
+.breadcrumb button{
+	margin:0 3px;
+}
+.ctrl-info:before {
+	content: " " !important;
+}
+/*--------buttons--------*/
+.panel-heading .btn{
+	margin: 2px;
+	margin-top:-3px ;
+}
+.btn{
+	height:25px;
+	line-height:10px;
+}
+
+.btn-default, .btn-default:focus, .btn-default.focus{
+	color: #29c3ff;
+	background-color: transparent;
+	border-color: #29c3ff;
+	outline: none;
+}
+.btn-default:hover, .btn-default.hover,  .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+	color: #fff;
+	background-color:  #29c3ff;
+	border-color: transparent;
+	outline: none;
+}
+.btn-primary{
+	background-color:#29c3ff;
+	border-color: transparent;
+}
+.btn-primary:hover{
+	background-color:#29c3ff;
+	border-color: transparent;
+}
+.btn-warning{
+   	background-color: #EF3121;
+}
+.btn-warning:hover,.btn-warning:visited,.btn-warning:active,.btn-warning:focus{
+	background-color: #E32E21;
+}
+.btn-link{
+   	background-color: #FE5200;
+   	border-radius: 5px;
+}
+.btn-link:hover,.btn-link:active,.btn-link:visited,.btn-link:focus{
+   	background-color: #EA4D03;
+}
+.btn-success{
+	background-color:#29c3ff;
+	border-color: transparent;
+}
+.btn-success:hover{
+	background-color:#29c3ff;
+	border-color: transparent;
+}
+.btn-success:foucs{
+	background-color:#29c3ff;
+	border-color: transparent;
+}
+/*--------label---------*/
+.label{
+	display: inline-block;
+	cursor: pointer;
+	margin: 3px;
+	padding:6px 8px;
+	font-size:12px;
+	font-weight:normal;
+	color:#4d4d4d;
+	border-radius: 0;
+}
+.label-default{
+	background-color: transparent;
+	color:#666666;
+}
+.label-default[href]:hover, .label-default[href]:focus {
+	box-shadow: inset 0px -2px 0 0 #29c3ff;
+	color: #29c3ff;
+	background-color: transparent;
+}
+.label-default:hover, .label-default:focus {
+	background-color: transparent;
+    box-shadow: inset 0px -2px 0 0 #29c3ff;
+	color: #29c3ff;
+}
+.label-danger{
+	background-color: transparent;
+	border-bottom: 2px solid #29C3FF;
+	color: #29c3ff;
+}
+.label-danger[href]:hover, .label-danger[href]:focus {
+	border-bottom: 2px solid #29C3FF;
+	color: #29c3ff;
+	background-color: transparent;
+}
+.label-danger:hover, .label-danger:focus {
+    border-bottom: 2px solid #29C3FF;
+	color: #29c3ff;
+	background-color: transparent;
+}
+.label-warning{
+	background-color:#cccccc;
+	color:#958989;
+}
+.label-success{
+    color:#fff;
+}
+/*-------imgCell---------*/
+.imgCell ul{
+	padding: 25px;
+	list-style-type:none;
+	margin:0px;
+}
+.imgCell{
+	padding:0px;
+	
+}
+.imgCell li{
+	float: left;
+	display: block;
+	position: relative;
+	overflow: hidden;
+	margin: 5px;
+	border: 1px solid #d2d2d2;
+	padding:5px;
+	background:#fff;
+	list-style-type:none;
+}
+.imgCell li>a>img{
+	width:206px;
+	height:309px;
+	display: block;
+	margin-bottom: 5px;
+}
+.imgCell li span{
+	margin-left:15px;
+	width:100%;
+	color:#f0832d;
+	font-size:18px;
+}
+.imgCell li:hover{
+	box-shadow: #666 0 0 9px;
+}
+/*--------pageChange------*/
+.pagination .small-p a {
+	width:100px;
+	text-align: center;
+	height: 34px;
+	line-height: 12px;
+}
+.pagination .small-p a span{
+	cursor: pointer;
+}
+.pagination .pageInfo a{
+	color: #999797;
+	background:transparent;
+	border-color:transparent;
+}
+.pagination .small-p a:hover,.pagination .pageInfo a:hover{
+    color: #29c3ff;
+    background:transparent;
+	border-color:#f0832d;
+}
+.pagination>li>a{
+	margin-left: 5px;
+	color:#999797;
+	border:0;
+	background: transparent;
+}
+.pagination>li>a:hover,
+.pagination>li>a:focus{
+	color: #29c3ff;
+	background: transparent;
+}
+.pagination>.active>a,
+.pagination>.active>a:hover,
+.pagination>.active>a:focus {
+	color: #29c3ff;
+	cursor: default;
+	background: transparent;
+}
+.pagination .jump-page-btn{
+	border:0;
+	color:#29c3ff;
+	background: transparent;
+}
+.pagination .jump-page-btn:hover{
+	border:0;
+	color:#29c3ff;
+	background: transparent;
+}
+.in-page-num{
+	background: #FFFFFF;
+	border: 1px solid #EFF2F3;
+	border-radius: 2px;
+	outline: none;
+	text-align: center;
+}
+/*--------upload---------*/
+.multiple-upload-btn{
+	font-size:18px;
+	font-weight:bold;
+	border: 1px solid #CCC;
+	width:168px;
+	height:126px;
+	line-height: 113px
+}	
+.multiple-upload-btn i{
+	display:block;
+	color:#999;
+	font-size:60px;
+	width:125px;
+	height:50px;
+}
+.ui-upload{
+	cursor:pointer;
+}
+.ui-upload-group img{
+	border: 1px solid #CCC;
+	width: 150px;
+	height: 225px;
+}
+.ui-upload-group div{
+	width: 150px;
+	height: 150px;
+	margin:2px;
+	float:left;
+	position: relative;
+}
+.glyphicon {
+	top: 15px;
+}
+.ui-upload-group .glyphicon-remove-circle{
+	color: red;
+	font-size: 18px;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 5px;
+	right:0;
+	cursor: pointer;
+}
+/************面包屑*************/
+.sys-cont>.breadcrumb{
+	background:#f3f3f3;
+}
+.category-type>.breadcrumb{
+	background:#fff;
+}
+/*-----------table---------*/
+
+.table-css .table>thead>tr>th,.table-css.table>thead>tr>th {
+	vertical-align: middle;
+	text-align: center;
+	height: 52px;
+	color: #fff;
+	background: #6C6C6C;
+	font-weight: 400;
+	font-size: 14px;
+	border:none; 
+}
+.table-css .table>tbody>tr{
+	border-bottom:1px solid #d8d8d8;
+}
+.table-css .table>tbody>tr>td,
+.table-css.table>tbody>tr>td,
+.table-css .table>tfoot>tr>td,
+.table-css.table>tfoot>tr>td {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 12px;
+	border:none; 
+	
+}
+.table-css .table-striped>tbody>tr:nth-child(even) {
+	background-color: transparent;
+}
+/************日期插件样式***************/
+#laydate_box,#laydate_box *{
+	box-sizing: content-box;
+}
+.glyphicon-remove-circle {
+	color: red;
+	position: absolute;
+	top: 4px;
+	right: 0;
+	cursor: pointer;
+}
+.laydate-icon{
+	background: #FFFFFF;
+	border: 1px solid #EFF2F3 !important;;
+	border-radius: 2px;
+	color: #999;
+}
+
+/**************other***************/
+.ctrl-info:before {
+	content: " " !important;
+}
+.imgCell:after{
+	content:'';
+	display: block;
+	clear:both;
+}
+.message-block{
+	background:#f3f3f3;
+}
+
+.sys-cont{
+	min-height:600px;
+}
+.footer-box{
+	margin-bottom:10px;
+}
+/***************个人信息******************/
+.info-item{
+	width:100%;
+	margin-bottom:20px;
+}
+.info-item-label{
+	float:left;
+	width:190px;
+	text-align: right;
+}
+.info-item-cont{
+	margin-left:200px;
+	position:relative;
+}
+.personal-info{
+	padding-top:20px;
+}
+.personal-info input{
+	width:100%;
+}
+
+/************搜索框************/
+.input-group-addon{
+	color:#fff;
+	background-color:#29c3ff;
+	border-color: #29c3ff; 
+}
+
+/******输入框*********/
+.form-control{
+	background: #FFFFFF;
+	border: 1px solid #EFF2F3;
+	border-radius: 2px;
+
+}

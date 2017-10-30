@@ -1,0 +1,219 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>衣布到位 - 面料、纺织品采购平台</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="img/favicon.ico"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body{
+            font:14px/150% Microsoft YaHei,Arial,Verdana,"\5b8b\4f53" ;
+        }
+        .navbar-brand {
+            padding: 23px 9px;
+        }
+        .navbar {
+            min-height: 111px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .form-horizontal .form-group {
+            margin-right: -30px;
+            margin-left: -2px;
+        }
+        .form-group {
+            margin-bottom: 26px;
+        }
+        .form-control{
+            width: 90%;
+        }
+        .btn-block {
+            width: 99%;
+        }
+        .content{
+            margin-top:55px;
+        }
+        .panel-footer {
+            padding: 10px 15px;
+            background-color: transparent;
+            border-top: 1px solid #e5e5e5;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        a:hover{
+            text-decoration: none;
+            cursor: pointer;
+            color: #2a6496;
+        }
+        .btn-danger:hover, .btn-danger:focus, .btn-danger.focus, .btn-danger:active, .btn-danger.active, .open>.dropdown-toggle.btn-danger {
+            color: #fff;
+            background-color: #E6941A;
+            border-color: #E6941A;
+            outline: none;
+        }
+        .btn-danger {
+             background-color:#f0832d;
+            border-color: #f0832d;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar header-top">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="navbar-header pull-left">
+                <a class="navbar-brand"><img class="img-rounded" style="width:60px;margin-top:0px;" src="img/logo.png" /></a>
+                <a class="navbar-brand" href="#" style="margin-top:9px"><strong style="font-size: 22px; color: #e70012">衣布到位</strong>
+                    <p style="font-size:16px;margin-top:3px;color: #333;">调样买布一步到位</p></a>
+            </div>
+            <div class="navbar-header pull-right" style="border: 1px solid #e70012;width: 136px;height: 46px; margin-top: 34px;margin-right: 37px;border-radius: 5px;">
+                <a class="navbar-brand" style="margin-top: -12px;margin-left: -6px;"><img class="img-rounded" style="width:30px;margin-top:-5px;" src="img/logo.png" /></a>
+                <a class="navbar-brand" href="#" style="margin-top: -57px; margin-left: 37px;"><strong style="font-size: 18px; color: #e70012">Pad</strong>
+                    <p style="font-size:12px;margin-top:-4px;color:#e70012;font-weight: bold">App免费下载</p></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container content">
+    <div class="col-md-12">
+        <div class="col-md-8">
+            <img src="img/login.jpg" style="margin-left: 9%;width: 90%;height: auto">
+        </div>
+        <div class="col-md-4 column">
+            <form role="form" class="form-horizontal">
+                <div  style="line-height: 42px;">
+                    <span  class="pull-left" style="font-size: 18px">请登录</span> <!--<a class="pull-right" style="color: #f0832d;font-size: 16px">立即注册</a>-->
+                </div>
+                <div class="form-group">
+                    <input id="InputUsername" style="height: 46px" type="text" class="form-control username" placeholder="输入登录名" />
+                </div>
+                <div class="form-group">
+                    <input id="InputPassword" style="height: 46px" type="password" class="form-control password"  placeholder="输入密码"/>
+                </div>
+                <div class="checkbox" style="margin-bottom: 20px; margin-top: -16px;">
+                    <label style="color: #9a9a9a"><input class="lockname" type="checkbox" style="font-size: 16px"/>记住帐号</label>
+                    <a class="pull-right" style="font-size: 14px;color: #9a9a9a">忘记密码？</a>
+                </div>
+                <div class="form-group" style="margin-left: -17px;">
+                    <div class="col-sm-8">
+                        <input id="InputCode" type="text" style="height: 46px" class="form-control codeimg"  placeholder="输入验证码"/>
+                    </div>
+                    <label class="col-sm-3 control-label">
+                        <img class="imgCode" style="width:90px;height:46px;cursor:pointer;margin-left:-50%;margin-top:-8px;"/>
+                    </label>
+                </div>
+                <button type="button" onclick="login()" class="btn btn-lg btn-block btn-danger login-tip" style="margin-left: -4px;">登录</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid panel-footer" style="margin-top: 40px" >
+    <div style="text-align: center;"><p style="margin:30px 10px 0; color: #999999">Copyright&copy;2016-2017 广州衣布到位信息科技有限公司 粤ICP备15050983号-1</p></div>
+    <div style="text-align: center;color: #999999"><p>备案号：粤ICP备15050983号-1</p></div>
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src='js/sha.js'></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+    var msLocalLoginName = localStorage.getItem("loginName");
+    onload=function(){
+        sessionStorage.clear();
+        if (msLocalLoginName){
+            $(".username").val(msLocalLoginName);
+            $(".lockname").attr("checked",true);
+        }else{
+            $(".username").val("");
+            $(".lockname").attr("checked",false);
+        }
+        $(".imgCode").attr("src", SERVER_URL + OPEN_API + "/imgCode?"+Math.random());
+        $(".imgCode").on("click",function() {
+            $(this).attr("src", SERVER_URL + OPEN_API + "/imgCode?"+Math.random());
+        });
+        $('body').keydown(function(e){
+            if(e.keyCode==13){
+                login();
+            }
+        });
+    };
+    function login(){
+        var lsName = $(".username").val();
+        var lsPass = $(".password").val();
+        var lsCode = $(".codeimg").val();
+        if (lsName==""){
+            showElTip(".username","请输入账号！");
+            $('.username').focus();
+            return false;
+        }
+        if (lsPass==""){
+            showElTip(".password","请输入密码！");
+            $('.password').focus();
+            return false;
+        }
+        if (lsCode==""){
+            showElTip(".codeimg","请输入验证码");
+            $(".imgCode").attr("src", SERVER_URL + OPEN_API + "/imgCode?"+Math.random());
+            $('.codeimg').focus();
+            return false;
+        }
+        lsPass = new Hashes.MD5().hex(lsPass).toUpperCase();
+        $.getJSON(SERVER_URL + OPEN_API + "/Login",{type:1,user:lsName,pwd:lsPass,imgCode:lsCode,appName:COMPANY.appName}, function(res){
+            if (res.exDesc!=null){
+                $(".imgCode").attr("src", SERVER_URL + OPEN_API + "/imgCode?"+Math.random());
+                $('.codeimg').focus().val('');
+                showElTip('.codeimg',"<h4>"+res.exDesc+"</h4>");
+            }else{
+                if ($(".lockname:checked").length){
+                    localStorage.setItem("loginName",lsName);
+                }else{
+                    localStorage.removeItem("loginName");
+                }
+                updateUser(res.userId,res.roleType,function () {
+                    pageTurn(res.roleType);
+                });
+            }
+        });
+    }
+   function  pageTurn(as) {
+       var lo_role = byNumGetName(as);
+       if (!lo_role){
+           alert("不能识别的角色！");
+           return;
+       }
+       var lsPath='';
+       switch (lo_role.s){
+           case "ADMIN":
+               lsPath="user_list.html"; break;
+           case "TRADER":           //贸易商
+               lsPath="user_list_provider.html"; break;
+           case "AUDITOR":          //贸易商品检员
+               lsPath="new_rating_list.html"; break;
+           case "OPERATOR":         //贸易商录入员
+               lsPath="user_list_provider.html"; break;
+           case "IMPORTER":            //原材料录入员
+               lsPath="product_cloth_list.html"; break;
+           case "PROVIDER":            //原材料供应商
+               lsPath="product_cloth_list.html"; break;
+           case "DOCUMENTARY":      //跟单
+               lsPath="order_list.html"; break;
+           case "FINANCE":          //财务
+               lsPath="order_list.html"; break;
+           case "OPERATION":        //运营
+               lsPath="product_cloth_list.html"; break;
+           default:
+               alert('本角色还未实现！');
+               return;
+       }
+       sessionStorage.setItem(lo_role.s+'Home',lsPath);
+       location.href=lsPath;
+   }
+</script>
+</body>
+</html>

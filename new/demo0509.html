@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/ebiconfont/css/ebwebfont.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .spu-table>tbody>tr>td:first-child{
+            width:100px;
+        }
+        .red-start{
+            color:#c40000;
+            margin-left:5px;
+            font-weight: bold;
+        }
+        .show{
+            display: inline-block!important;
+        }
+        .sku-coding>td>div{
+            float:left;
+            text-align: center;
+        }
+        .sku-coding>td>div:first-child{
+            width:118px;
+            margin-right:3px;
+        }
+        .sku-coding>td>div>button{
+            visibility: hidden;
+        }
+        .sku-coding:hover>td>div>button{
+            visibility: visible;
+        }
+        .sku-coding .sku-image-group div{
+            margin:0 3px;
+            float:left;
+            position:relative;
+        }
+        .sys-cont .panel-body{
+            padding:8px 0;
+        }
+        .spu-info .col-md-7.col-sm-12,
+        .spu-info .col-md-5.col-sm-12{
+            padding:0 5px;
+        }
+        .carousel-control{
+            z-index: 999;
+        }
+        .img-box li{
+            position: relative;
+            display: none;
+            z-index: 5;
+        }
+        li.current{
+            display: inline-block;
+            z-index: 10;
+        }
+        .spu-col .table tr td:not([data-id]){
+            width:95px;
+        }
+        .spu-images div,
+        .report-images div{
+            display: inline-block;
+            margin:0 10px 10px 0;
+        }
+        .star-box{position:relative;float:right;margin-right: 42.5%;}
+        .star-box ul,.star-box span{float:left;display:inline;height:19px;line-height:19px;}
+        .star-box ul{margin:0 10px;}
+        .star-box li{float:left;width:24px;cursor:pointer;text-indent:-9999px;background:url(img/star.png) no-repeat;}
+        .star-box strong{color:#f60;padding-left:10px;}
+        .star-box li.on{background-position:0 -28px;}
+        .table td span:not(:last-child){
+            margin-right:20px;
+        }
+    </style>
+</head>
+<body>
+<div class="settings-pane">
+    <a href="#" data-toggle="settings-pane" data-animate="true">&times;</a>
+    <div class="settings-pane-inner with-animation visible"></div>
+</div>
+<div class="page-container">
+    <div class="sidebar-menu fixed">
+        <div class="logo-env clearfix"></div>
+        <div class="sidebar-menu-inner"></div>
+        <div class="company-copyright"></div>
+    </div>
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <div class="row">
+                        <nav class="nav user-info-nav">
+                            <div class="page-breadcrumb pull-left">
+                                <ul class="breadcrumb">
+                                    <li><a href="#" class="home-page-bread">首页</a></li>
+                                    <li><a href="#" onclick="history.go(-1)">返回上页</a></li>
+                                    <li class="active"><span class="other-info"></span><span>商品详情</span></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="row">
+                        <div class="other-function"> 
+                            <div class="col-md-12 column clearfix">
+                                <div class="breadcrumb">
+                                    <div class="goods-category"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="viewImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>SKU图片预览</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="img-box"></ul>
+                <a class="left carousel-control" style="cursor: pointer;"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a class="right carousel-control" style="cursor: pointer;"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/TweenMax.min.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var myInfo={
+    uid:MOPG['id']||USER.userId,
+    lo_role:{},
+    userDetail:null,
+    init:function(){
+        this.createBase();
+        this.getUserDetail();
+    },
+    createBase: function () {
+        var items = [
+            {n: '录入员名称',m:true, c: 'name-input', t: 1},
+            {n: '电话号码',m:true, c: 'phone-input', t: 1}
+        ];
+        var html = '';
+        html = '<div class="panel panel-default"><div class="panel-body personal-info">';
+        html += '<div class="clearfix" style="width:70%;float:left">';
+        for (var i = 0; i < items.length; i++) {
+            html += '<div class="info-item">';
+            html += '<label class="info-item-label" for="' + items[i].c + '">' + items[i].n;
+            items[i].m&&(html+='&nbsp;<span style="color:red;">*</span>');
+            html += '</label>';
+            html += '<div class="info-item-cont">';
+            if (items[i].t == 2) {
+                html += '<div class="ui-labelGroup '+items[i].c+'" isMultiple="1"><span class="label label-default" data-name="面料">面料</span><span class="label label-default" data-name="纽扣">纽扣</span><span class="label label-default" data-name="拉链">拉链</span></div>';
+            } else if (items[i].t == 1) {
+                html += '<input class="' + items[i].c + ' form-control" placeholder="输入' + items[i].n + '" id="' + items[i].c + '">';
+            }else if(items[i].t == 3){
+                html += '<textarea class="' + items[i].c + ' form-control" id="' + items[i].c + '"></textarea>';
+            }
+            html += '</div></div>';
+        }
+        html += '</div>';
+        html += '<div class="clearfix" style="margin-left:70%;text-align: center;padding-top:85px;">';
+        html += '<img class="ui-upload headPortrait" title="点击上传头像，建议大小 W200 * H200px。"  imageType="2" imageSize="2" src="img/user.jpg" style="width:150px;height:150px;"/>';
+        html += '</div>';
+        html += '</div><div class="clearfix">';
+        html += '<button type="button" class="btn btn-success btn-block pull-right submit-change" style="width: 224px;height:32px; margin-bottom: 30px">保存</button>';
+        html += '</div></div></div>';
+
+        $(".sys-cont").html(html);
+        labelGroup.init();
+        uploadIMG.init();
+        $('.submit-change').on('click', function () {
+            this.saveUserDetail();
+        }.bind(this))
+    },
+    getUserDetail:function(){
+        var _this = this;
+        $.get(SERVER_URL + OPEN_API + '/auth.do?cmd=getUserDetail',{userId:this.uid,appName:3 }, function (res) {
+            if (res.exDesc!=null) {
+                alert(res.exDesc);
+            } else {
+                _this.userDetail=res;
+                _this.showDetail(res);
+            }
+        }, 'json');
+    },
+    showDetail:function(res){
+        $('.name-input').val(res.name||'');
+        $('.phone-input').val(res.tel||'');
+    },
+    getDetail:function(){
+        var name=$('.name-input').val();
+        if(name==''){
+            alert('请填写名称！');
+            return false;
+        }
+        var phone=$('.phone-input').val();
+        if(phone==''){
+            alert("请填写电话号码！");
+                return false;
+        }
+        var headPortrait = ($(".headPortrait").attr("imageSrc") == "img/user.jpg" ? "" : $(".headPortrait").attr("imageSrc"));
+        var lo_obj=$.extend({},this.userDetail);
+        return $(lo_obj).attr({
+            name:name,
+            tel:phone,
+            headPortrait:headPortrait
+        })[0];
+    },
+    saveUserDetail:function(){
+        var userInfo = this.getDetail();
+        if(confirm("确认修改？")){
+            waitLoading.show();
+            $.post(SERVER_URL+OPEN_API+'/auth.do?cmd=userMgr',{
+                appName:3,
+                toUserId:this.uid,
+                op:7,
+                userInfo:JSON.stringify(userInfo)
+            },function(res){
+                waitLoading.hide();
+                if(res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    location.reload();
+                }
+            },'json')
+        }
+    }
+    
+}
+    window.onload=function(){
+        myInfo.init();
+    }
+</script>
+</body>
+</html>

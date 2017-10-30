@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!--侧栏 start-->
+    <div class="sidebar" id="sidebar"></div>
+    <!--侧栏 end-->
+    <!--右侧内容 start-->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <!--主体头部 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-header clearfix">
+                                <!--面包屑 start-->
+                                <ul class="breadcrumb col-md-6">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>订单列表</span></li>
+                                </ul>
+                                <div class="breadcrumb col-md-3 clearfix list-unstyled" style="display: flex;line-height:34px;">
+                                    <div class="laydate-icon" id="startDate" style="width:120px; margin-right:10px;display:inline-block;height: 34px;line-height: 34px;"></div>至
+                                    <div class="laydate-icon" id="endDate" style="width:120px; margin-left:10px;display:inline-block;height: 34px;line-height: 34px;"></div>
+                                </div>
+                                <div class="col-md-3 column pull-right">
+                                    <div class="input-group" style="width:200px;">
+                                        <input type="text" class="form-control keyword" placeholder="订单号">
+                                        <span class="input-group-addon" style="cursor:pointer;" onclick="myOrderList.search()">搜索</span>
+                                    </div>
+                                </div>
+                                <div class="breadcrumb col-md-12 column clearfix">
+                                    <div class="col-md-9 column pull-left" style="padding-left:0px;">
+                                        <div class="group-type"></div>
+                                    </div>
+                                    <!-- <div class="col-md-3 column pull-right">
+                                        <div class="input-group" style="width:200px;">
+                                            <input type="text" class="form-control keyword" placeholder="订单号">
+                                            <span class="input-group-addon" style="cursor:pointer;" onclick="myOrderList.search()">搜索</span>
+                                        </div>
+                                    </div> -->
+                                </div><!--面包屑 end-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体头部 end-->
+                    <!--主体内容 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont"></div>
+                        </div>
+                    </div>
+                    <!--主体内容 end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容 end-->
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript" src="./plug/laydate/laydate.js"></script>
+<script type="text/javascript">
+    var showList = {
+        pageSize:20,
+        orderStatus:ORDER_STATUS.concat(),
+        productType:PRODUCT_TYPE.concat(),
+        totalSize:sessionStorage.getItem("listTotalSize")||0,
+        init : function(){
+            // breadcrumb();
+            this.creatBase();
+            this.loadGroup();
+            this.loadList();
+            this.showUserName();
+            laydate(this.startDate);
+            laydate(this.endDate);
+        },
+        creatBase : function(){
+            var html = '<ul class="pagination col-md-12 ui-pageChange clearfix"></ul>';
+            html+= '<div class="data-list col-md-12 clearfix"></div>';
+            html+= '<ul class="pagination col-md-12 ui-pageChange clearfix"></ul>';
+            $(".sys-cont").append(html);
+        },
+        loadGroup : function(){
+            switch(ROLETYPE.s){
+                case 'FINANCE':
+                var c1 = MOPG["C1"]||6;
+                this.orderStatus = [{t:6,n:"待审核",s:"COMFIRM"},{t:1,n:"已审核",s:"ALLOCATION"}];
+                break;
+                case 'DOCUMENTARY':
+                case 'ADMIN':
+                var c1 = MOPG["C1"]||-1;
+                var all = {t:-1,n:"全部",s:"ALL"};
+                this.orderStatus.unshift(all);
+                break;
+            }
+            var html = '';
+            var lo_role={};
+            var loPer = $.extend({},MOPG);
+            for (var i=0;i<this.orderStatus.length;i++){
+                lo_role=this.orderStatus[i];
+                loPer.C1 = lo_role.t;
+                loPer.P = 0;
+                if (c1==lo_role.t){
+                    html += '<a class="label label-danger"  href="?'+ perapara(loPer) +'">'+lo_role.n+'</a>';
+                }else{
+                    html += '<a class="label label-default"  href="?'+ perapara(loPer) +'">'+lo_role.n+'</a>';
+                }
+            }
+            $(".group-type").html(html);
+        },
+        search : function(){
+            var lsKey = $(".keyword").val();
+            if (lsKey!=""){
+                MOPG["P"] = 0;
+                this.loadList(lsKey);
+                //window.location.href = "orderInfo.html?id="+lsKey;
+            }else{
+                alert("请输入关键字!");
+            }
+        },
+        loadList : function(asKey){
+            waitLoading.show();
+            switch(ROLETYPE.s){
+                case 'FINANCE':
+                var liroleType = MOPG["C1"]||6;
+                break;
+                case 'DOCUMENTARY':
+                case 'ADMIN':
+                var liroleType = MOPG["C1"]||-1;
+                break;
+            }
+            var liType = (asKey)?1:2;
+            var getUrl = null;
+            var _this=this;
+            if (!asKey) asKey="";
+            var startTime = MOPG["D1"];
+            var endTime   = MOPG["D2"];
+            if(liroleType == -1)
+            {
+                getUrl=SERVER_URL + OPEN_API + "/auth.do?cmd=queryAllOrder" + SUBJOIN_PARA;
+            }else {
+                getUrl=SERVER_URL + OPEN_API + "/auth.do?cmd=queryAllOrderByStatus" + SUBJOIN_PARA;
+            }
+            $.getJSON(getUrl,{
+                status:liroleType,
+                toUserId:MOPG['UID']||0,
+                startTime:dateFormat(startTime||new Date(new Date()-31*24*60*60*1000),"yyyy-MM-dd") + " 00:00:00",
+                endTime:dateFormat(endTime||new Date(),"yyyy-MM-dd") + " 23:59:59",
+                page:(MOPG["P"]||0),
+                pageSize:this.pageSize
+            }, function(res){
+                waitLoading.hide();
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    var lxList = res.list;
+                    if (lxList.length>0){
+                        _this.show(res);
+                    }else{
+                        _this.pageNo();
+                    }
+                }
+            });
+        },
+        show:function (e) {
+                    var lxList = e.list;
+                    var lo_role = null,lo_type=null;
+                    var lsH = ['<div style="margin:0 10px 5px 0;" class="table-css"><table class="table table-bordered table-striped table-hover"><thead><tr>'];
+                    lsH[lsH.length] = '<th>订单号</th><th>总金额</th><th>收货人</th><th>收货电话</th><th>订单状态</th><th>创建时间</th><th style="width:150px">操作</th></tr></thead><tbody>';
+                    for (var i = 0; i < lxList.length; i++) {
+                        lo_role = byNumGetName(lxList[i].status, this.orderStatus);
+                        lo_type = byNumGetName(lxList[i].productType,this.productType);
+                        lsH[lsH.length] = '<tr><td>' + lxList[i].orderId + '</td>';
+                        lsH[lsH.length] = '<td>¥ ' + lxList[i].orderAmount + '</td>';
+                        lsH[lsH.length] = '<td>' + lxList[i].cneeName + '</td>';
+                        lsH[lsH.length] = '<td>' + lxList[i].cneePhone + '</td>';
+                        lsH[lsH.length] = '<td>' + lo_role.n + '</td>';
+                        // lsH[lsH.length] = '<td>' + lo_type.n + '</td>';
+                        lsH[lsH.length] = '<td>' + dateFormat(lxList[i].createTime) + '</td>';
+                        lsH[lsH.length] = '<td style="text-align:center">';
+                        lsH[lsH.length] = '<a href="order_info.html?id=' + lxList[i].orderId + '" class="btn btn-default">查看详情</a>';
+                        lsH[lsH.length] = '</td></tr>'
+                    }
+                    lsH[lsH.length] = '</tbody></table></div>';
+                    $(".data-list").html(lsH.join(''));
+                    if ((MOPG["P"] || 0) == 0) {
+                        this.totalSize = parseInt(e.totalSize);
+                        sessionStorage.setItem("listTotalSize", this.totalSize);
+                    }
+                    $(".pagination").attr({maxPage: this.totalSize / this.pageSize, totalLeaf: this.totalSize});
+                    pageChange.init();
+            },
+        pageNo:function () {
+            var _this = this;
+            if ((MOPG["P"]||0)==0){
+                _this.totalSize = 0;
+                sessionStorage.setItem("listTotalSize",_this.totalSize);
+            }
+            $(".data-list").html("没有找到记录!");
+            $(".pagination").attr({maxPage:this.totalSize/this.pageSize,totalLeaf:this.totalSize});
+            pageChange.init();
+        },
+        startDate : {
+            elem: '#startDate',
+            format: 'YYYY-MM-DD',
+            start: MOPG["D1"]||dateFormat(new Date(new Date()-31*24*60*60*1000),"yyyy-MM-dd"),
+            min:'',
+            max:MOPG["D2"]||laydate.now(),
+            isclear: false,
+            istoday: false,
+            choose: function(datas){
+                this.start = datas;
+                showList.changeDate();
+            }
+        },
+        endDate : {
+            elem: '#endDate',
+            format: 'YYYY-MM-DD',
+            start: MOPG["D2"]||dateFormat(new Date(),"yyyy-MM-dd"),
+            min:MOPG["D1"]||'',
+            max:laydate.now(),
+            isclear: false,
+            istoday: false,
+            choose: function (datas) {
+                this.start = datas;
+                showList.changeDate();
+            }
+        },
+        changeDate : function (){
+            var loPer = $.extend({},MOPG);
+            loPer.D1 = showList.startDate.start;
+            loPer.D2 = showList.endDate.start;
+            location.href = '?' + perapara(loPer);
+        },
+        showUserName:function(){
+            var userName = MOPG["U1"]||0;
+            if(userName){
+                var html='（用户名：'+userName+'）';
+                $('.user-name-info').html(html);
+            }
+        }
+    }
+
+    window.onload=function(){
+        showList.init();
+        $("#startDate").html(showList.startDate.start);
+        $("#endDate").html(showList.endDate.start);
+    }
+</script>
+</html>

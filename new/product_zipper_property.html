@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/ebiconfont/css/ebwebfont.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    .table thead tr th{
+        color:#333;
+        font-size: 14px;
+        font-weight: 400;
+        vertical-align: middle;
+    }
+    .table tbody tr td{
+        font-size: 14px;
+        color:#333;
+        vertical-align: middle;
+    }
+    .table>thead>tr>th:first{
+        width:20%;
+    }
+    .table>thead>tr>th:nth-child(2){
+        width:40%;
+    }
+    .table>thead>tr>th:nth-child(3){
+        width:40%;
+        padding-left: 5%;
+    }
+    .table>tbody>tr>td:nth-child(3){
+        padding-left: 5%;
+    }
+    .input-group{
+        width:100%;
+    }
+    .input-group input{
+        font-size: 14px;
+    }
+    .input-group-addon{
+        background: #F4F5F9;
+        border-color: #EFF2F3;
+        font-size: 12px;
+        color: #676F6F;
+    }
+    .modal-backdrop{
+        background-color: rgba(255,255,255,0);
+    }
+    .modal-body{
+        background-color:#656c68;
+        padding:30px 20px;
+    }
+    .modal-body ul li{
+        text-align: center;
+        color:#fff;
+        margin:15px 0;
+    }
+    .modal-body .modal-sure{
+        color:#29c3ff;
+    }
+    .modal-body .modal-waring{
+        color:#e43a3d;
+    }
+    .modal-body ul li .btn-ensure{
+        width: 170px;
+        height: 40px;
+        background-color: #29c3ff;
+    }
+    .modal-body ul li .btn-cancel{
+        width: 170px;
+        height: 40px;
+        background-color: #E43A3D;
+    }
+    .modal-body .btn:hover{
+        color:#fff;
+    }
+    .modal-close{
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-size: 26px;
+        color:#fff;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+<div class="settings-pane">
+    <a href="#" data-toggle="settings-pane" data-animate="true">&times;</a>
+    <div class="settings-pane-inner with-animation visible"></div>
+</div>
+<div class="page-container">
+    <div class="sidebar-menu fixed">
+        <div class="logo-env clearfix"></div>
+        <div class="sidebar-menu-inner"></div>
+        <div class="company-copyright"></div>
+    </div>
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <div class="row">
+                        <nav class="nav user-info-nav">
+                            <div class="page-breadcrumb pull-left">
+                                <ul class="breadcrumb">
+                                    <li><a href="#" class="home-page-bread">首页</a></li>
+                                    <li><a href="#" onclick="history.go(-1)">返回上页</a></li>
+                                    <li class="active"><span class="other-info"></span><span>面料属性</span></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="row">
+                        <div class="other-function"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont">
+                                <div class="panel panel-default" style="box-shadow: 0 2px 3px rgba(0,0,0,0.2);">
+                                    <div class="breadcrumb data-header">属性管理</div>
+                                    <div class="data-info" style="padding:0 10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="buyertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:150px;border-radius:0;">
+            <div class="modal-body"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/TweenMax.min.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var showInfo = {
+    catId:322,
+    attrList:new Object(),
+    init:function(){
+        this.createBase()
+    },
+    createBase:function(){
+        var _this = this
+        $.getJSON(SERVER_URL + OPEN_API + '/show.do?cmd=queryAttribute'+SUBJOIN_PARA,{catId:this.catId},function(res){
+                if(res.exDesc!=null){
+                    alert(res.exDesc)
+                }else{
+                    this.showInfo(res)
+                }
+        }.bind(this))
+        $('.data-info').on('click','.input-group-addon',function(){
+            var pid = $(this).parent().data('pid')
+            var key = $(this).parent().data('key')
+            var val = $(this).siblings('.keyword').val().trim()
+            if(val==''){
+                alert('请输入新参数！')
+                return false
+            }
+            var holdArr = []    //ajax用
+            var show = {sure:[],waring:[],count:[]}    //弹窗
+            var obj = {},count=new Object()
+            if(val.indexOf("、")!=-1){
+                var items = val.split("、")
+                for(var i=0;i<items.length;i++){
+                    var newName = items[i].trim()
+                    if(newName!=''){
+                        obj.name=newName
+                        holdArr.push(obj)
+                        show.sure.push(newName)
+                        obj={}
+                        _this.attrList[pid].map(function(name){
+                            name==newName&&show.waring.push(newName)
+                        }) 
+                    }
+                }
+            }else{
+                obj.name=val
+                holdArr.push(obj)
+                show.sure.push(val)
+                _this.attrList[pid].map(function(name){
+                    name==val&&show.waring.push(val)
+                })   
+            }
+            if(show.waring.length==0&&show.sure.length==0){
+                alert('无效输入！')
+                $('.data-info .input-group[data-pid="'+pid+'"] .keyword').focus()
+                return false
+            }else{
+                var saveArr=holdArr.map(function(arg,index){
+                    arg.name in count?count[arg.name]++:count[arg.name]=0
+                    return {name:arg.name,key:key+1+index}
+                })
+                for(var k in count){
+                    count[k]>0&&show.count.push(k)
+                }
+                show.count.length>0?_this.modalHTML(show.count,3,pid):show.waring.length>0?_this.modalHTML(show.waring,2,pid):_this.modalHTML(show.sure,1,pid,saveArr)
+            }
+        })
+    },
+    showInfo:function(data){
+        var items = data||[]
+        var html='<table class="table">'
+                +'<thead><tr><th>属性名</th><th>已有参数</th><th>操作</th></tr></thead>'
+                +'<tbody>'
+                for(var i=0,arr=[];i<items.length;i++){
+                    html+='<tr><td>'+items[i].name+'</td><td>'+
+                        items[i].attributeList.map(function(arg){
+                            arr.push(arg.name)
+                            return arg.name
+                        }).join('、')
+                        this.attrList[items[i].id] = arr
+                        arr=[]
+                    html+='</td><td>'
+                        +'<div class="input-group" data-key="'+(items[i].attributeList.length)+'"  data-pid="'+items[i].id+'">'
+                        +'<input type="text" class="form-control keyword" placeholder="输入新参数，输入多个请使用[ 、]分隔">'
+                        +'<span class="input-group-addon" style="cursor:pointer;padding:0 20px;" data-toggle="modal" data-target="#addModal">确定</span>'
+                        +'</div></td></tr>'
+                }
+            html+='</tbody></table>'
+            $('.data-info').html(html)
+    },
+    addAttribute:function(list,pid){
+        $.getJSON(SERVER_URL + OPEN_API + '/auth.do?cmd=addAttribute'+SUBJOIN_PARA,{
+            catId:this.catId,
+            id:pid,
+            list:JSON.stringify(list)
+        },function(res){
+            if(res.exDesc!=null){
+                alert(res.exDesc)
+            }else{
+                alert('新建成功！')
+                this.createBase()
+            }
+        }.bind(this))
+    },
+    modalHTML:function(showList,type,pid,list){  //type:1无重复，2已有,3输入重复
+        var html='<ul>'
+                +'<li>'+(type===1?'✅无重复，确认新建属性参数吗？':type===2?'警告⚠️，已有属性参数':'警告⚠️，输入重复')+'</li>'
+                +'<li class="'+(type===1?'modal-sure':'modal-waring')+'">'+showList.join('、')+'.'
+                +'</li>'
+                + '<li>'+(type===1?'<button class="btn btn-ensure" data-dismiss="modal">确认新建</button>':'<button class="btn btn-cancel" data-dismiss="modal">取消</button>')
+                + '</li>'
+                + '</ul>'
+                + '<span class="modal-close" data-dismiss="modal">&times;</span>'
+        $('.modal-body').html(html)
+        $('.btn-cancel').on('click',function(){
+            setTimeout(function(){
+                $('.data-info .input-group[data-pid="'+pid+'"] .keyword').focus()
+            },0)
+        })
+        $('.btn-ensure').on('click',function(){
+            this.addAttribute(list,pid)
+        }.bind(this))
+    }
+}
+    window.onload=function(){
+        showInfo.init()
+    }
+</script>
+</body>
+</html>

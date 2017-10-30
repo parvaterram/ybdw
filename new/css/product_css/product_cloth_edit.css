@@ -1,0 +1,194 @@
+/***********供应商信息*****************/
+.change-box{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -12px;
+}
+.supplier-info{
+    position:relative;
+}
+.li-addr .change-addr-btn {
+    background: #f0832d;
+    color: #fff;
+    border: 1px solid #f0832d;
+    border-radius: 3px;
+    visibility: hidden;
+}
+.li-addr:hover .change-addr-btn{
+    visibility: visible;
+}
+/***************SPU**********************/
+.spu-table>tbody>tr>td:first-child{
+    width:100px;
+}
+.red-start{
+    color:#c40000;
+    margin-left:5px;
+    font-weight: bold;
+}
+.spu-detail input:not([type=radio]){
+    width:40%;
+    margin-right:10px;
+}
+.spu-detail select{
+    width:25%;
+    margin-right:10px;
+}
+.spu-info label{
+    font-size:14px;
+    font-weight: normal;
+    margin-right:25px;
+}
+.err-message{
+    color:#f0832d;
+    font-style: italic;
+    display: none;
+    width:55%;
+}
+.edit-ingredient>.ing-group{
+    margin-bottom:10px;
+}
+.edit-ingredient>.ing-group input{
+    width:20%;
+    margin-right:0;
+}
+.spu-detail .edit-ingredient>.ing-group .btn{
+    margin-left:10px;
+    visibility: hidden;
+}
+.spu-detail .edit-ingredient>.ing-group:hover .btn{
+    visibility: visible;
+}
+.spu-detail td .add-custom-btn{
+    /*visibility: hidden;*/
+}
+.spu-detail td:hover .add-custom-btn{
+    /*visibility: visible;*/
+}
+.show{
+    display: inline-block!important;
+}
+.prompt-error{
+    background:rgba(255,69,0,.5)
+}
+#myModal-qrcode .modal-body ul li{
+    display:inline-block;
+    width:33%;
+    text-align: center;
+}
+/****************sku*******************/
+.sku-coding>td>div{
+    float:left;
+    text-align: center;
+}
+.sku-coding>td>div:first-child{
+    margin:0 10px;
+}
+.sku-coding>td>div>input{
+    width:100%;
+    margin:8px 0;
+}
+.sku-coding>td>div>button{
+    visibility: hidden;
+}
+.sku-coding:hover>td>div>button{
+    visibility: visible;
+}
+.sku-coding .sku-image-group div{
+    margin:0 3px;
+    float:left;
+    position:relative;
+}
+.sys-cont .panel-body{
+    padding:8px 0;
+}
+.spu-info .col-md-7.col-sm-12,
+.spu-info .col-md-5.col-sm-12{
+    padding:0 5px;
+}
+.carousel-control{
+    z-index: 999;
+}
+.img-box{
+    text-align: center;
+}
+.img-box li{
+    position: relative;
+    display: none;
+    z-index: 5;
+}
+li.current{
+    display: inline-block;
+    z-index: 10;
+}
+.sku-detail input[type="checkbox"]{
+    margin:0;
+}
+.sku-detail input[type="checkbox"]+input{
+    margin-top:0;
+}
+.ui-upload-group img{
+    width:75px;
+    height:75px;
+}
+/****************SPU******************/
+.spu-detail .table-col-1,.spu-detail .table-col-3{
+    width:95px;
+}
+.spu-detail .table:first-child .table-col-2,
+.spu-detail .table:first-child .table-col-4{
+    width:41%;
+}
+.spu-detail .differ-price>div,
+.spu-detail [class*=fabric-]>div{
+    float:left;
+    width:50%;
+}
+.spu-detail .differ-price>div>input,
+.spu-detail [class*=fabric-]>div>input{
+    width:55%;
+    margin-left:10px;
+}
+.spu-detail .attr-box{
+    display: inline-block;
+}
+.spu-detail .attr-box span{
+    margin:0 10px;
+}
+.spu-detail .view-larger-image{
+    margin-top:25px;
+    margin-left:10px;
+}
+/*************SKU**********************/
+.sku-edit>div:first-child{
+    height:27px;
+    line-height: 27px;
+    float:left;
+}
+.sku-edit>div:last-child{
+    float:right;
+}
+.sku-detail .sku-edit>div input[type=number]{
+    margin-right:20px;
+}
+.sku-coding td:not(:nth-child(2)){
+    text-align: center;
+    vertical-align: middle;
+}
+.sku-coding td:nth-child(4) .btn:not(:last-child){
+    margin-right:20px;
+}
+/*******************/
+.button-box .col-md-6{
+    padding:0;
+}
+.button-box .col-md-6:last-child{
+    text-align: right;
+}
+.button-box .col-md-6:first-child .btn{
+    margin-right:30px;
+}
+.button-box .col-md-6:last-child .btn{
+    margin-left:30px;
+}

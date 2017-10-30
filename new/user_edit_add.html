@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    .sys-cont{
+          min-height: 500px;
+      }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!--侧栏 start-->
+    <div class="sidebar" id="sidebar"></div>
+    <!--侧栏 end-->
+    <!--右侧内容 start-->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <!--主体头部 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-header">
+                                <!--面包屑 start-->
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>添加用户</span></li>
+                                </ul>
+                                <!--面包屑 end-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体头部 end-->
+                    <!--主体内容 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <b>1.创建一个新的用户帐号。　　　2.填写详细资料。　　　3.完成！</b>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group col-md-5">
+                                            <div class="form-group">
+                                                <label>用户类型</label>
+                                                <select name="" id="" class="form-control regType"></select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>用户账号</label> （注意：点击下一步后不能修改）
+                                                <input type="text" class="form-control userName" placeholder="登录名/手机号">
+                                            </div>
+                                            <button class="btn btn-primary pull-right" style="width:100px;" onclick="submitNext()">下一步</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体内容 end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容 end-->
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var editUser={
+    c1:MOPG["C1"]||0,
+    roleNames:[],
+    init:function(){
+        var html = '';
+        switch(ROLETYPE.s){
+            case 'ADMIN':
+                this.roleNames = USER_ROLE_TYPE;
+                for(var i=0;i<this.roleNames.length;i++){
+                    var item = this.roleNames[i];
+                    if(item.t!=24&&item.t!=25&&item.t!=21&&item.t!=22){
+                        html += '<option value="' + item.t + '"';
+                        if(this.c1==item.t){
+                            html +='selected=selected ';
+                        }
+                        html += '>'+this.roleNames[i].n+'</option>';
+                    }
+                }
+            break;
+            case 'TRADER':
+                this.roleNames = USER_ROLE_TYPE;
+                for(var i=0;i<this.roleNames.length;i++){
+                    var item=this.roleNames[i];
+                    if(item.s=="AUDITOR" || item.s=="OPERATOR"){
+                        html += '<option value="'+item.t+'"';
+                        if(this.c1==item.t){
+                            html += 'selected=selected';
+                        }
+                        html += '>'+this.roleNames[i].n+'</option>';
+                    }
+                }
+            break;
+            case 'PROVIDER':
+                this.roleNames = [{t:21,n:"原材料录入员",s:"IMPORTER"}];
+                for(var i=0;i<this.roleNames.length;i++){
+                    var item = this.roleNames[i];
+                    html += '<option value="'+item.t+'"';
+                    if(this.c1==item.t){
+                        html += 'selected=selected';
+                    }
+                    html += '>'+this.roleNames[i].n+'</option>';
+                }
+            break;
+        }
+        $('.regType').html(html);
+    }
+}
+function submitNext(){
+    var lsUser=$('.userName').val();
+    var liRole=$('.regType').val();
+    var server = {op:1,roleType: liRole, user: lsUser};
+    if(ROLETYPE.s=='PROVIDER')server.providerId = USER.userId;
+    $.post(SERVER_URL + OPEN_API + "/auth.do?cmd=userMgr" + SUBJOIN_PARA,server,function(res){
+        if (res.exDesc != null) {
+            alert(res.exDesc);
+        }else{
+            alert(lsUser+'账号创建完成！');
+            switch(ROLETYPE.s){
+                case 'PROVIDER':
+                    window.location='user_edit_operator.html?id='+res.userId;
+                break;
+                case 'ADMIN':
+                case 'TRADER':
+                    var liRole = $('.regType').val();
+                    var liuserId = res.userId;
+                    pageTurn(liuserId,liRole);
+                break;
+            }
+        }
+    },'json');
+}
+function pageTurn(id,rt){
+    var lsLink='#';
+    var lo_role = byNumGetName(rt,this.roleNames);
+
+    if (lo_role.s=="ADMIN" || lo_role.s=="OPERATION"|| lo_role.s=="FINANCE"|| lo_role.s=="DOCUMENTARY"){    //管理员
+        lsLink = 'user_edit_info';
+    }else{
+        lsLink='user_edit_'+lo_role.s.toLowerCase();
+    }
+
+    lsLink!="#"&&(location.href=lsLink+'.html?id='+id);
+}
+
+    window.onload=function(){
+        editUser.init();
+        if (MOPG["T"] != null && MOPG["T"] != 0) {
+            $(".regType").val(MOPG["T"]);
+        }
+    }
+</script>
+</html>

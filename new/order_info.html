@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .deliver {
+            margin-bottom: 20px;
+        }
+        .modal-footer .btn + .btn {
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+        .modal-footer .btn {
+            height: 25px;
+            line-height: 10px;
+            margin-bottom: 5px;
+        }
+        .note {
+            float: left;
+        }
+        .panel-body [class*=col-]{
+            padding: 0;
+        }
+        .panel-body p {
+            margin: 10px 0;
+        }
+        .input-group .btn-default {
+            height: 34px;
+            padding: 6px 12px;
+            color: #555;
+            background-color: #eee;
+            border-color: #ccc;
+            background-image: -webkit-linear-gradient(top,#fff 0,#e0e0e0 100%);
+            background-image: -o-linear-gradient(top,#fff 0,#e0e0e0 100%);
+            background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#e0e0e0));
+            background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+        }
+        .input-group .btn-default:hover,
+        .input-group .btn-default:focus,
+        .input-group .btn-default:active{
+            color: #555;
+            background-color: #eee;
+            /*border-color: transparent;*/
+        }
+        .modal-body .input-group:not(:last-child){
+            margin-bottom:20px;
+        }
+        .modal-body .input-group span{
+            margin-right:10px;
+        }
+        .modal-body .input-group select{
+            margin-right:10px;
+        }
+        .provider-info-btn{
+            margin-left: 15px;
+        }
+        .submit-adjust{
+            border-color:#29c3ff;
+            background-color:#29c3ff;
+            color:#fff;
+            padding: 16px 14px;
+            line-height: 2px;
+        }
+        .submit-adjust:hover{
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!--侧栏 start-->
+    <div class="sidebar" id="sidebar"></div>
+    <!--侧栏 end-->
+    <!--右侧内容 start-->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <!--主体头部 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-header">
+                                <!--面包屑 start-->
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>订单详情</span></li>
+                                </ul>
+                                <!--面包屑 end-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体头部 end-->
+                    <!--主体内容 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <!--startprint-->
+                            <div class="page-body sys-cont"></div>
+                            <!--endprint-->
+                        </div>
+                    </div>
+                    <!--主体内容 end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容 end-->
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:150px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel" style="font-size: 18px;font-weight: bold">
+                    物流信息
+                </h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="auditModal" tabindex="-1" role="dialog" aria-labelledby="auditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:150px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="auditModalLabel" style="font-size: 18px;font-weight: bold">
+                    银行转账信息
+                </h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="buyerModal" tabindex="-1" role="dialog" aria-labelledby="buyertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:150px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="buyertModalLabel" style="font-size: 18px;font-weight: bold">
+                    收货人信息
+                </h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="cneeModal" tabindex="-1" role="dialog" aria-labelledby="cneetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:150px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="cneetModalLabel" style="font-size: 18px;font-weight: bold">
+                    物流信息
+                </h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var showInfo = {
+        orderStatus:ORDER_STATUS,
+        priceType:PRICE_TYPES,
+        priceUnit:PRICE_UNIT,
+        providerId:0,
+        oid: MOPG["id"]||0,
+        Info:{},
+        init:function(){
+            this.createBase();
+            this.loadCate();
+        },
+        createBase:function(){
+            var html ='';
+            html  = '<div class="panel-heading"><strong class="text-success">订单状态</strong><div class="ctrl-box pull-right"></div></div>';
+            html += '<div class="panel-body order-status"></div>';
+            html += '<div class="panel-heading"><strong class="text-success">付款信息</strong></div>';
+            html += '<div class="panel-body buyer-info"></div>';
+            html += '<div class="panel-heading"><strong class="text-success">订单信息</strong><div class="modify-cnee-box pull-right"></div></div>';
+            html += '<div class="panel-body order-info"></div>';
+            html += '<table class="table table-bordered table-responsive table-css data-table"><thead><tr><th></th><th>供应商</th><th>商品名称</th><th>商品编号</th><th>sku编号</th><th>交易类型</th><th>数量</th><th>单价(元)</th><th>总金额(元)</th></tr></thead><tbody class="data-list"></tbody><tfoot></tfoot></table>';
+            html += '<div class="panel-body pay-info"></div>';
+            html += '<div class="panel-heading invoice-head"><strong class="text-success">发票信息</strong><div class="modify-invoice-box pull-right"></div></div>';
+            html += '<div class="panel-body invoice-info"></div>';
+            html += '<div class="panel-heading"><strong class="text-success">订单备注</strong></div>';
+            html += '<div class="panel-body note-info"><textarea name="" id="" cols="100" rows="3" placeholder="订单备注" class="in-note"></textarea><button class="btn btn-default add-note" style="margin-left: 20px;margin-top: -18px;">提交</button></div>';
+            $('.sys-cont').html(html);
+        },
+        loadCate:function(){
+            $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=queryOrder" + SUBJOIN_PARA, {
+                orderId: this.oid
+            }, function (res) {
+                if (res.exDesc != null) {
+                    alert(res.exDesc);
+                } else {
+                    showInfo.showBase(res);
+                }
+            });
+        },
+        showBase:function(ax){
+            var info=ax||null;
+            var items=info.items||[];
+            var payInfo=info.payInfo||null;
+            var html = '';
+            var lo_role=byNumGetName(ax.status,this.orderStatus);
+            if(!info.invoiceType){$('.invoice-head').addClass('hide');$('.invoice-info').addClass('hide');}
+            if (lo_role.s == "ALLOCATION") {
+                html ='<button class="btn btn-default process-order">确认处理</button>';
+                html+='<button class="btn btn-default print-btn">打印预览</button>';
+            }else if(lo_role.s == "HANDLED"){
+                html = '<a data-toggle="modal" data-target="#myModal" class="btn btn-default" style="margin-left: 126px;margin-right: 10px;">确认发货</a>';
+                this.logicInfo();
+            }else if(lo_role.s == "ARREARAGE"){
+                html='<button class="btn btn-default cancel-order">取消订单</button><button data-toggle="modal" data-target="#auditModal" class="btn btn-default submit-audit">付款信息提交审核</button>';
+                $('.modify-cnee-box').html('<button data-toggle="modal" data-target="#buyerModal" class="btn btn-default modify-cnee">修改收货人信息</button>');
+                $('.modify-invoice-box').html('<button class="btn btn-default modify-invoice">修改发票信息</button><button class="btn btn-default change-invoice" style="display:none;">确认</button>');
+                this.paymentInfo();
+                this.buyerInfo();
+            }else if(lo_role.s == "COMFIRM"){
+                html ='<button class="btn btn-default approved-btn">审核通过</button>';
+            }else if(lo_role.s == "DELIVERED" || lo_role.s == "RECEIVED"){
+                html='<button data-toggle="modal" data-target="#cneeModal" class="btn btn-default show-cnee">查看物流信息</button>';
+                this.cneeInfo(info.deliType,info.trackingNum,info.deliCom);
+            }
+            $('.ctrl-box').html(html);
+            $('.order-status').html('<b style="color:blue">'+lo_role.n+'</b>');
+            html = '<div class="col-md-12" style="font-size:18px;line-height:35px;">'+(info.payWay==0?"":info.payWay==1?"微信支付信息":info.payWay==2?"支付宝支付信息":info.payWay==3?"":info.payWay==4?"银行转账交易信息":"")+'</div>';
+            html+='<div class="col-md-12"><p class="col-md-4">订单编号：'+info.orderId+'</p><p class="col-md-4">创建时间：'+dateFormat(info.createTime)+'</p>';
+            if(payInfo)html+='<p class="col-md-4">付款时间：'+dateFormat(payInfo.createTime)+'</p>'+(payInfo.transaction_id?'<p class="col-md-4">交易单号：'+payInfo.transaction_id+'</p>':"")+(payInfo.bankName?'<p class="col-md-4">交易银行：'+payInfo.bankName+'</p>':"")+(payInfo.accountName?'<p class="col-md-4">户主姓名：'+payInfo.accountName+'</p>':"");
+            html+='</div>';
+            $('.buyer-info').html(html);
+            html='<div class="col-md-12"><p class="col-md-6">收货人：'+info.cneeName+'</p><p class="col-md-6">联系电话：'+info.cneePhone+'</p><p class="col-md-12">收货地址：'+info.cneeAddr+'</p></div>';
+            $('.order-info').html(html);
+
+            var list=[],item={};
+            for(var i=0,subItems,skuList=[];i<items.length;i++){
+                subItems=items[i].subItems;
+                skuList=items[i].product.skuList||[];
+                for(var j=0;j<subItems.length;j++){
+                    if(items[i].product){
+                        if(ROLETYPE.s=='DOCUMENTARY'||ROLETYPE.s=='ADMIN'){
+                            item.providerId=items[i].product.providerId||'';
+                        }
+                        item.providerName=items[i].product.providerName||'';
+                        item.aliasName=items[i].product.aliasName||'';
+                        item.productCode=items[i].product.productCode||'';
+                        item.unit=byNumGetName((items[i].product.saleUnit||1),this.priceUnit);
+                    }
+                    item.price=subItems[j].price||0;
+                    item.type=byNumGetName(subItems[j].priceType,this.priceType);
+                    item.skuId=subItems[j].skuId||'';
+                    item.number=subItems[j].number||0;
+                    item.subTotal=item.price*item.number;
+                    for(var z=0;z<skuList.length;z++){
+                        if(item.skuId==(skuList[z]?skuList[z].skuId:0)){
+                            item.image=skuList[z].images?(skuList[z].images[0]?skuList[z].images[0].image:''):'';
+                            item.skuCode=skuList[z]?skuList[z].skuCode:'';
+                            break;
+                        }
+                    }
+                    list.push($.extend({},item));
+                }
+            }
+            html='';
+            for(var i=0,lo_item;i<list.length;i++){
+                lo_item=list[i];
+                html += '<tr><td><img src="'+getPicUrlForCode(lo_item.image,1,0)+'" width="100" height="100" alt=""></td><td>'+lo_item.providerName;
+                if(ROLETYPE.s=='DOCUMENTARY'||ROLETYPE.s=='ADMIN'){
+                    html += '<button class="btn btn-default provider-info-btn" data-toggle="modal" data-target="#myModal-provider" data-id="'+item.providerId+'">详情</button>';
+                }
+                html += '</td><td>'+lo_item.aliasName+'</td><td>'+lo_item.productCode+'</td><td>'+lo_item.skuCode+'</td><td>'+lo_item.type.n+'</td><td>'+lo_item.number+(item.type.s!="CARD"?item.unit.n:'')+'</td><td>'+formatMoney(lo_item.price)+'</td><td>'+formatMoney(lo_item.subTotal)+'</td></tr>';
+            }
+            $('.data-list').html(html);
+            html='<tr><td></td><td></td><td></td><td></td><td></td><td>税费：</td><td>'+formatMoney(info.invoiceAmount||0)+'</td><td>合计：</td><td>'+formatMoney(info.orderAmount||0)+'</td></tr>';
+            $('.data-table tfoot').html(html);
+            html='<div class="col-md-3 col-md-offset-6">';
+            if(lo_role.s == "ARREARAGE")html+='<div class="input-group"><span class="input-group-addon">加价：</span><input type="text" class="form-control in-adjust" placeholder=""><span class="input-group-btn"><button class="btn submit-adjust" type="button">提交</button></span>';
+            html+='</div></div>';
+            html+='<div class="col-md-3" style="padding:0 20px;line-height: 35px;font-size: 16px;text-align: right;"><b>实付金额：<span>'+formatMoney(info.payAmount)+'</span></b></div>';
+            $('.pay-info').html(html);
+            html='<p class="col-md-3">发票抬头：';
+            switch(ROLETYPE.s){
+                case 'FINANCE':
+                html += info.invoiceTitle||'';
+                case 'ADMIN':
+                case 'DOCUMENTARY':
+                html += '<span class="tit-invoice">'+(info.invoiceTitle||'')+'</span><input type="text" class="in-invoice"  style="display:none;" value="'+(info.invoiceTitle||'')+'">';
+                default:
+            }
+            html += '</p><p class="col-md-3">发票内容：'+(info.invoiceContent||'')+'</p>';
+            $('.invoice-info').html(html);
+            $('.in-note').val(info.note||'');
+            var _this=this;
+            $('.print-btn').on("click",function(){
+                _this.printedPage();
+            });
+            $('.submit-adjust').on('click',function(){
+               _this.adjustAmount();
+            });
+            $('.note-info').on('click','.add-note',function(){
+                _this.addOrderNote();
+            });
+            if(ROLETYPE.s=='FINANCE'||ROLETYPE.s=='ADMIN'){
+                $('.approved-btn').on('click',function(){
+                    if(confirm("确认通过审核？")){
+                        _this.modifyOrderStatus(1);
+                    }
+                });
+            }
+            if(ROLETYPE.s=='DOCUMENTARY'||ROLETYPE.s=='ADMIN'){
+                $('.process-order').on('click',function(){
+                    if(confirm('确认开始处理该订单？')){
+                        _this.modifyOrderStatus(5,'处理成功！');
+                    }
+                });
+                $('.cancel-order').on('click',function(){
+                    if(confirm('确认关闭该订单？')){
+                        _this.modifyOrderStatus(4,'关闭成功！');
+                    }
+                });
+                $('.modify-invoice').on('click',function(){
+                    if(info.invoiceType==1){
+                        $('.modify-invoice').hide();    $('.tit-invoice').hide();
+                        $('.change-invoice').show();    $('.in-invoice').show();
+                    }
+                });
+                $('.change-invoice').on('click',function(){
+                    var title = $('.in-invoice').val();
+                    _this.changeInvoice(title,info.invoiceContent);
+                });
+                $('.provider-info-btn').on('click',function(){
+                    var liId=$(this).data('id');
+                    if(_this.providerId!=liId){
+                        _this.getProviderDetail(_this.providerId=liId);
+                    }
+                });
+                this.createModal({});
+            }
+
+        },
+        getProviderDetail:function(id){
+            $.get(SERVER_URL + OPEN_API + '/auth.do?cmd=getUserDetail',{userId:id,appName:3}, function (res) {
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                } else {
+                    var html='';
+                    html='<ul class="provider-info"><li><span>供应商名称：</span><span>'+(res.name||'')+'</span></li>' +
+                            '<li><span>供应商地址：</span><span>'+(res.address||'')+'</span></li>' +
+                            '<li><span>联系电话：</span><span>'+(res.tel||'')+'</span></li></ul>';
+                    $('#myModal-provider .modal-body').html(html);
+                }
+            }, 'json');
+        },
+        createModal: function (ao) {
+            var lsH = ao.html || '', lsTitle = ao.title || '供应商信息', eleId = ao.eleId || '', btnName = ao.btnName || '', noFoot = ao.noFoot || false;
+            var html = '';
+            html = '<div class="modal fade" id="myModal-provider" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+                    '<div class="modal-dialog">' +
+                    '<div class="modal-content">' +
+                    '<div class="modal-header">' +
+                    '<span>' + lsTitle + '</span>' +
+                    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+                    '</div>' +
+                    '<div class="modal-body">' + lsH + '</div>';
+            if (!noFoot) {
+                html += '<div class="modal-footer">';
+                html += '<button type="button" class="btn btn-default modal-ack-button" data-dismiss="modal">确认</button>';
+                //html += '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>';
+                html += '<div>';
+            }
+            html += '</div><!-- /.modal-content -->';
+            html += '</div><!-- /.modal -->';
+            html += '</div>';
+            $('body').append(html);
+            html = btnName?'<button class="btn btn-default" data-toggle="modal" data-target="#' + eleId + '">' + btnName + '</button>':'';
+            return html;
+        },
+        changeInvoice:function(title,ct){
+            $.get(SERVER_URL + OPEN_API + "/auth.do?cmd=updateInvoiceInfo" + SUBJOIN_PARA,{orderId:this.oid,invoiceContent:ct,invoiceTitle:title},function(res){
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else if(res.desc=="ok"){
+                    alert("修改成功！");
+                    $('.modify-invoice').show();
+                    $('.tit-invoice').html(title).show();
+                    $('.change-invoice').hide();
+                    $('.in-invoice').hide();
+                }
+            },'json');       
+        },
+        cneeInfo:function(ct,num,name){
+            $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=queryDeliveryInfo" + SUBJOIN_PARA,{companyType:ct,number:num},function (res) {
+                if (res.exDesc != null) {
+                    alert(res.exDesc);
+                } else {
+                    var list=res.recordList;
+                    var html='';
+                    html='<ul style="margin-bottom: 20px;"><li>承运来源：'+(res.company||name)+'</li><li>物流单号：'+(res.number||'')+'</li><li>官方电话：'+(res.companyPhone||'暂无')+'</li></ul>';
+                    if(list.length>0){
+                        html+='<ul class="list-group">';
+                        for(var i=0;i<list.length;i++){
+                            html+='<li class="list-group-item '+(i==0&&' list-group-item-success')+'"><p>'+list[i].content+'</p><p>'+list[i].time+'</p></li>';
+                        }
+                        html+='</ul>';
+                    }else{
+                        html+='<ul class="list-group"><li class="list-group-item list-group-item-warning">'+res.reason+'</li></ul>';
+                    }
+                    $('#cneeModal .modal-body').html(html);
+                }
+
+            });
+        },
+        adjustAmount:function(){
+            var lsAmount=$('.in-adjust').val();
+            if(lsAmount==''||lsAmount=="0"){
+                alert('输入金额有误，请重新输入！');
+                return;
+            }else{
+                lsAmount=parseFloat(lsAmount);
+            }
+            $.get(SERVER_URL + OPEN_API + "/auth.do?cmd=updateOrderAmount" + SUBJOIN_PARA,{orderId:this.oid,adjustAmount:lsAmount},function (res) {
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    location.reload();
+                }
+            },"json");
+        },
+        addOrderNote:function(){
+            var lsNote=$('.in-note').val();
+            $.post(SERVER_URL + OPEN_API + "/auth.do?cmd=updateNote" + SUBJOIN_PARA,{orderId:this.oid,note:lsNote},function (res) {
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    location.reload();
+                }
+            },"json");
+        },
+        confirmDeal:function (e) {
+            var oid=MOPG["id"]||0;
+            var status = e.getAttribute("data-status");
+            var t;
+            if(status == 1)
+            {
+                t = 5;
+                if(confirm("确认处理？"))
+                {
+                    $.get(SERVER_URL + OPEN_API + "/auth.do?cmd=updateOrderStatus" + SUBJOIN_PARA,{orderId:oid,status:t},function (res) {
+                        if (res.exDesc!=null){
+                            alert(res.exDesc);
+                        }else{
+                            location.reload();
+                        }
+                    },"json");
+                }
+            }
+        },
+        logicInfo: function () {
+            $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=queryDeliveryCompany", function (res) {
+                if (res.exDesc != null) {
+                    alert(res.exDesc);
+                } else {
+                    var html = '';
+                    html = '<div class="deliver">选择物流公司：<select id="selectd" onchange="showInfo.changeRemark();">';
+                    for (var i = 0; i < res.length; i++) {
+                        html += '<option value="' + res[i].type + '">' + res[i].name + '</option>';
+                    }
+                    html += '<option value="other">其他</option>';
+                    html += '</select></div>';
+                    $("#myModal .modal-body").html(html);
+                    var source = '<button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 0px 25px 0px 25px;">取消</button> <button type="button"  onclick="showInfo.confirmDeliver()" class="btn btn-danger" style="padding: 0px 25px 0px 25px;">确认</button>';
+                    $("#myModal .modal-footer").html(source);
+                    showInfo.changeRemark();
+                }
+
+            });
+        },
+        paymentInfo:function(){
+            var list=["-请选择-","中国银行","中国工商银行","中国农业银行","中国建设银行","交通银行","中国邮政储蓄银行","中信银行","中国光大银行","华夏银行","中国民生银行",
+                "广发银行","深圳发展银行","招商银行","兴业银行","上海浦东发展银行","恒丰银行","浙商银行","渤海银行","其他"];
+            var html='';
+            html = '<div class="input-group"><span>户主姓名：</span><input type="text" class="in-name"></div>';
+            html += '<div class="input-group"><span>交易银行：</span><select class="sel-bank">';
+            for(var i=0;i<list.length;i++){
+                html+='<option value="'+list[i]+'">'+list[i]+'</option>';
+            }
+            html += '</select><input type="text" class="in-bank"></div>';
+            html += '<div class="input-group"><span>交易账号：</span><input type="text" class="in-account"></div>';
+            $('#auditModal .modal-body').html(html);
+            html = '<button class="btn btn-default" data-dismiss="modal">取消</button><button class="btn btn-default payment-submit">确认</button>';
+            $("#auditModal .modal-footer").html(html);
+            var _this=this;
+            $('#auditModal').on('click','.payment-submit',function(){
+                _this.submitPaymentInfo();
+            });
+        },
+        submitPaymentInfo:function(){
+            var $modal=$('#auditModal');
+            var lsName=$modal.find('.in-name').val();
+            if(lsName==""){
+                alert("请输入户主姓名！");
+                return;
+            }
+            var lsBank=$modal.find('.sel-bank').val();
+            if(lsBank=="-请选择-"){
+                alert("请选择交易银行！");
+                return;
+            }else if(lsBank=="其他"){
+                lsBank=$modal.find('.in-bank').val();
+                if(lsBank==""){
+                    alert("请输入交易银行！");
+                    return;
+                }
+            }
+            var lsAccount=$modal.find('.in-account').val();
+            if(lsAccount==""){
+                alert("请输入银行账号！");
+                return;
+            }
+            if(ROLETYPE.s=='FINANCE'||ROLETYPE.s=='ADMIN'){
+                var lsAmount=$modal.find('.in-amount').val();
+                if(lsAmount==""){
+                    alert("请输入交易金额！");
+                    return;
+                }else if((lsAmount=parseFloat(lsAmount)*100)<=0){
+                    alert("交易金额输入有误，请重新填写！");
+                    return;
+                }
+            }
+            var msg='请再次核对信息无误，点击确认后，订单信息将不能再更改！\n\n'+'户主：'+lsName+'\n\n银行：'+lsBank+'\n\n账号：'+lsAccount;
+            var _this=this;
+            if(confirm(msg)){
+                $.post(SERVER_URL + OPEN_API + "/auth.do?cmd=updateBankTransferInfo" + SUBJOIN_PARA,{orderId:this.oid,accountName:lsName,bankAccount:lsAccount,bankName:lsBank,amount:lsAmount},function (res) {
+                    if (res.exDesc != null) {
+                        alert(res.exDesc);
+                    } else {
+                        _this.modifyOrderStatus(6);
+                    }
+                },'json');
+            }
+        },
+        buyerInfo:function(){
+            var html='';
+            html = '<div class="input-group"><span>收货人姓名：</span><input type="text" class="in-name"></div>';
+            html += '<div class="input-group"><span>联系电话：</span><input type="text" class="in-phone"></div>';
+            html += '<div class="input-group"><span>收货地址：</span><textarea name="" id="" cols="60" rows="2" class="in-address"></textarea></div>';
+            $('#buyerModal .modal-body').html(html);
+            html = '<button class="btn btn-default" data-dismiss="modal">取消</button><button class="btn btn-default buyer-submit">确认</button>';
+            $("#buyerModal .modal-footer").html(html);
+            var _this=this;
+            $("#buyerModal").on('click','.buyer-submit',function(){
+                _this.submitBuyerInfo();
+            });
+        },
+        submitBuyerInfo:function(){
+            var $modal=$("#buyerModal");
+            var lsName=$modal.find('.in-name').val();
+            if(lsName==""){
+                alert("请输入收货人姓名！");
+                return;
+            }
+            var lsPhone=$modal.find('.in-phone').val();
+            if(lsPhone==""){
+                alert("请输入联系电话！");
+                return;
+            }
+            var lsAddress=$modal.find('.in-address').val();
+            if(lsAddress==""){
+                alert("请输入收货地址！");
+                return;
+            }
+            if(confirm("确认修改收货人信息？")){
+                $.post(SERVER_URL + OPEN_API + "/auth.do?cmd=updateCneeInfo" + SUBJOIN_PARA,{orderId:this.oid,cneeName:lsName,cneeAddr:lsAddress,cneePhone:lsPhone},function (res) {
+                    if (res.exDesc != null) {
+                        alert(res.exDesc);
+                    } else {
+                        alert('修改成功！');
+                        location.reload();
+                    }
+                },'json');
+            }
+        },
+        modifyOrderStatus:function(at,as){
+            var msg=as||'提交成功！';
+            $.get(SERVER_URL + OPEN_API + "/auth.do?cmd=updateOrderStatus" + SUBJOIN_PARA,{orderId:this.oid,status:at},function (res) {
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    alert(msg);
+                    location.reload();
+                }
+            },"json");
+        },
+        changeRemark : function(){
+            $('.remark').remove();
+            var lsH = '';
+            if($("select").val() == "other"){
+                lsH = '<div class="deliver remark clearfix" style="margin-left: 55px;"><div class="note">备注：</div><div class="note"><textarea class="num" placeholder="20字以内" style="width:300px;"></textarea></div></div>';
+            }else{
+                lsH = '<div class="deliver remark" style="margin-left: 42px;">运单号：<input type="text" class="num" placeholder="填写单号"></div>';
+            }
+            $("#myModal .modal-body").append(lsH);
+        },
+        confirmDeliver:function () {
+            var type = $("select").val();
+            var name = $("select").find("option:selected").text();
+            var num = $(".num").val();
+            $.get(SERVER_URL + OPEN_API + "/auth.do?cmd=updateOrderStatus" + SUBJOIN_PARA,{orderId:this.oid,status:2,freight:0,deliCom:name,deliType:type,trackingNum:num},function (res) {
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    location.reload();
+                }
+            },"json");
+
+        },
+        printedPage : function(){
+            var bdHtml=window.document.body.innerHTML;//获取当前页的html代码
+
+            var sprnstr="<!--startprint-->";//设置打印开始区域
+            var prnHtml=bdHtml.substring(bdHtml.indexOf(sprnstr)+17); //从开始代码向后取html
+
+            var eprnstr="<!--endprint-->";//设置打印结束区域
+            prnHtml=prnHtml.substring(0,prnHtml.indexOf(eprnstr));//从结束代码向前取html
+
+            window.document.body.innerHTML=prnHtml;
+            $('a').removeAttr("href");
+            $('.ctrl-box').css("display","none");
+            $('.base-info>div').removeClass("col-md-6").addClass("col-md-3");
+
+            window.print();
+            window.document.body.innerHTML=bdHtml;
+            var _this=this;
+            $('.print-btn').on("click",function(){
+                _this.printedPage();
+            });
+        }
+}
+    window.onload=function(){
+        showInfo.init();
+    }
+</script>
+</html>

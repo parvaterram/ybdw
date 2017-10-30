@@ -1,0 +1,141 @@
+[
+  {
+    "id": 12,
+    "name": "商品管理",
+    "children": [
+      {
+        "id": 1201,
+        "name": "面料商品",
+        "children": [
+          {
+            "id": 120101,
+            "name": "面料列表",
+            "path": "product_cloth_list.html"
+          },
+          {
+            "id": 120102,
+            "name": "面料属性",
+            "path": "product_cloth_property.html"
+          },
+          {
+            "id": 120103,
+            "name": "面料标签",
+            "path": "product_cloth_label.html"
+          }
+        ]
+      },
+      {
+        "id": 1202,
+        "name": "纽扣商品",
+        "children": [
+          {
+            "id": 120201,
+            "name": "纽扣列表",
+            "path": "product_button_list.html"
+          },
+          {
+            "id": 120202,
+            "name": "纽扣属性",
+            "path": "product_button_property.html"
+          },
+          {
+            "id": 120203,
+            "name": "纽扣标签",
+            "path": "product_button_label.html"
+          }
+        ]
+      },
+      {
+        "id": 1203,
+        "name": "拉链商品",
+        "children": [
+          {
+            "id": 120301,
+            "name": "拉链列表",
+            "path": "product_zipper_list.html"
+          },
+          {
+            "id": 120302,
+            "name": "纽扣属性",
+            "path": "product_zipper_property.html"
+          },
+          {
+            "id": 120303,
+            "name": "纽扣标签",
+            "path": "product_zipper_label.html"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "订单管理",
+    "children": [
+      {
+        "id": 1301,
+        "name": "订单列表",
+        "path": "order_list.html"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "商品运营",
+    "children": [
+      {
+        "id": 1401,
+        "name": "新品评星列表",
+        "path": "new_rating_list.html"
+      },
+      {
+        "id": 1402,
+        "name": "商品定制列表",
+        "path": "custom_made_list.html"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "财务管理",
+    "children": [
+      {
+        "id": 1501,
+        "name": "订单审核列表",
+        "path": "order_list.html"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "用户管理",
+    "children": [
+      {
+        "id": 1601,
+        "name": "用户列表",
+        "path": "user_list.html"
+      },
+      {
+        "id": 1602,
+        "name": "新增用户",
+        "path": "user_edit_add.html"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "供应商管理",
+    "children": [
+      {
+        "id": 1701,
+        "name": "供应商列表",
+        "path": "user_list_provider.html"
+      },
+      {
+        "id": 1702,
+        "name": "新增供应商",
+        "path": "user_provider_add.html"
+      }
+    ]
+  }
+]

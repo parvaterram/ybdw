@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        th {
+            text-align: center;
+        }
+        .btn{
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .table-sup tbody tr td:nth-child(2){
+            cursor:pointer;
+        }
+        .btn-sch{
+            display: table;
+            padding: 9px 13px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            background-color: #29c3ff;
+            border: 1px solid #29c3ff;
+            border-radius: 3px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!--侧栏 start-->
+    <div class="sidebar" id="sidebar"></div>
+    <!--侧栏 end-->
+    <!--右侧内容 start-->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <!--主体头部 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-header">
+                                <!--面包屑 start-->
+                                <ul class="breadcrumb col-md-8">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>用户列表</span></li>
+                                </ul>
+                                <!--面包屑 end-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体头部 end-->
+                    <!--主体内容 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont"></div>
+                        </div>
+                    </div>
+                    <!--主体内容 end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容 end-->
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var showList = {
+    pageSize:20,
+    roleNames: USER_ROLE_TYPE,
+    userStatus: {0: "正常", 1: "被禁用"},
+    totalSize: sessionStorage.getItem("listTotalSize") || 0,
+    roleList:PROVIDER_MAJORS.concat(),
+    b1:MOPG['B1']||31,
+    c1:0,
+    init:function(){
+        switch(ROLETYPE.s){
+            case 'ADMIN':
+                this.c1 = MOPG['C1']||23;
+                this.createBase();
+                $('.page-header',$('#page')).append('<div class="col-md-2 column pull-right">'+
+                        '<div class="input-group" style="width:170px;">'+
+                            '<input type="text" class="form-control keyword" placeholder="登录名/手机号">'+
+                            '<span class="input-group-addon" style="cursor:pointer;" onclick="showList.search()">搜索</span>'+
+                        '</div>'+
+                        '</div>');
+                this.loadGroup();
+                this.loadList();
+            break;
+            case 'TRADER':
+                this.c1 = MOPG['C1']||24;
+                this.createBase();
+                $('.operation-info').html('<a href="'+(this.c1==22?'user_edit_provider.html':'user_edit_add.html?C1='+this.c1)+'" class="btn btn-primary">新增用户</a>');
+                this.loadGroup();
+                this.loadList();
+            break;
+            case 'PROVIDER':
+                this.c1 = MOPG['C1']||21;
+                this.createBase();
+                $('.operation-info').html('<a href="user_edit_add.html?C1='+this.c1+'" class="btn btn-primary">新增录入员</a>');
+                this.loadList();
+            break;
+            default:
+            return
+        }
+    },
+    createBase:function(){
+        var html = '';
+        switch(ROLETYPE.s){
+            case 'ADMIN':
+                html='<div class="breadcrumb col-md-12 column clearfix">' +
+                        '<div class="col-md-10 colmn pull-left" style="padding-left:0px;">' +
+                            '<div class="group-type"></div>' +
+                        '</div>'+
+                        '</div>'+
+                            '<ul class="pagination ui-pageChange clearfix"></ul>';
+                if(this.c1!=24&&this.c1!=25&&this.c1!=21){html+= '<div class="pull-right operation-info" style="margin:25px 15px"><a href="user_edit_add.html?C1='+this.c1+'" class="btn btn-primary">新增用户</a></div>';}
+                html+= '<div class="data-list clearfix"></div>';
+                html+= '<ul class="pagination ui-pageChange clearfix"></ul>';
+            break;
+            case 'TRADER':
+                html = '<div class="breadcrumb col-md-12 column clearfix">'+
+                        '<div class="col-md-6 column pull-left" style="padding-left:0;">'+
+                            '<div class="group-type"></div>'+
+                        '</div>'+
+                    '</div>'
+                    if(this.c1==22){
+                        html +='<div class="breadcrumb col-md-12 column clearfix">'+
+                                    '<div class="group-business"></div>'+
+                                '</div>'
+                    }
+                html+='<div class="breadcrumb col-md-12 column clearfix">'+
+                        '<div class="col-md-2 col-md-offset-5 column">'+
+                            '<div class="input-group">'+
+                                '<input type="text" class="form-control key-id" placeholder="ID">'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="col-md-2 column">'+
+                           '<div class="input-group">'+
+                                '<input type="text" class="form-control key-name" placeholder="供应商名称">'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="col-md-2 column">'+
+                            '<div class="input-group">'+
+                                '<input type="text" class="form-control key-address" placeholder="地址">'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="col-md-1 column">'+
+                            '<span class="btn-sch search" onclick="showList.search();">搜索</span>'+
+                        '</div>'+
+                    '</div>'+
+
+                    '<ul class="pagination ui-pageChange clearfix"></ul>'+
+                    '<div class="pull-right operation-info" style="margin:25px 15px">'+
+                    '</div>'+
+                    '<div class="data-list clearfix"></div>'+
+                    '<ul class="pagination ui-pageChange clearfix"></ul>';
+            break;
+            case 'PROVIDER':
+                html = '<ul class="pagination ui-pageChange clearfix"></ul>'+
+                    '<div class="pull-right operation-info" style="margin:25px 15px"></div>'+
+                    '<div class="data-list clearfix"></div>'+
+                    '<ul class="pagination ui-pageChange clearfix"></ul>';
+            break;
+        }
+        $(".sys-cont").html(html);
+    },
+    loadGroup:function(){
+        var items = this.roleNames||[];
+        var lo_role = {};
+        var html='';
+        for(var i=0;i<items.length;i++){
+            if(ROLETYPE.s=='ADMIN'){
+                lo_role=this.roleNames[i];
+                if (this.c1==lo_role.t){
+                    html += '<a class="label label-danger" href="?C1='+lo_role.t+'">'+lo_role.n+'</a>';
+                }else{
+                    html += '<a class="label label-default" href="?C1='+lo_role.t+'">'+lo_role.n+'</a>';
+                }
+            }else if(ROLETYPE.s=='TRADER'){
+                if(items[i].s=="AUDITOR" || items[i].s=="OPERATOR" || items[i].s=="PROVIDER"){
+                lo_role = items[i];
+                    if (this.c1 == lo_role.t) {
+                        html += '<a class="label label-danger" href="?C1=' + lo_role.t + '">' + lo_role.n + '</a>';
+                    } else {
+                        html += '<a class="label label-default" href="?C1=' + lo_role.t + '">' + lo_role.n + '</a>';
+                    }
+                }
+                if(this.c1==22){
+                    var lo_list = {}
+                    var lo_Per = $.extend({},MOPG)
+                    var lsH=''
+                    for(var j=0;j<this.roleList.length;j++){
+                        lo_list=this.roleList[j]
+                        lo_Per.B1=lo_list.t
+                        lo_Per.P=0
+                        if(this.b1==lo_list.t){
+                            lsH+='<a class="label label-danger" href="?'+perapara(lo_Per)+'">'+lo_list.n+'</a>'
+                        }else{
+                            lsH+='<a class="label label-default" href="?'+perapara(lo_Per)+'">'+lo_list.n+'</a>'
+                        }
+                    }
+                    $(".group-business").html(lsH)
+                }
+                    
+            }
+        }
+        $(".group-type").html(html);
+    },
+    search:function(){
+        var lsKey = '';
+        switch(ROLETYPE.s){
+            case 'ADMIN':
+                lsKey = $('.keyword').val();
+                if (lsKey!=""){
+                    MOPG["P"] = 0;
+                    this.loadList(lsKey);
+                }else{
+                    alert("请输入关键字!");
+                }
+            break;
+            case 'TRADER':
+            case 'PROVIDER':
+                var idKey = $('.key-id').val()
+                var name = $('.key-name').val()
+                var address = $('.key-address').val()
+                if(idKey==''&&name==''&&address==''){
+                    alert("请输入关键字!");
+                }
+                if(idKey!=''){
+                    $('.key-name').val('');
+                    $('.key-address').val('');
+                    this.idSearch();
+                }else{
+                    if(name!=''){
+                        MOPG['p']=0;
+                        this.loadList(name,1);
+                    }else{
+                        MOPG['p']=0;
+                        this.loadList(address,1);
+                    }
+                }
+            break;
+            default:
+            return
+        }
+    },
+    idSearch:function(){
+        var lsKey = $('.key-id').val();
+        if(lsKey == ''){
+            alert("请输入关键字!");
+        }else{
+            $.get(SERVER_URL + OPEN_API + '/auth.do?cmd=getUserDetail',{userId:lsKey,appName:3 }, function (res) {
+                if (res.exDesc!=null) {
+                    alert(res.exDesc);
+                } else {
+                    this.showList([res]);
+                }
+            }.bind(this), 'json');
+        }
+    },
+    loadList:function(asKey,type){
+        waitLoading.show();
+        var _this=this;
+        var liroleType = this.c1;
+        var liType = (asKey)?1:2;
+        if(!asKey)asKey='';
+        var server = '';
+        switch(ROLETYPE.s){
+            case 'ADMIN':
+                server={type:liType,keyword:asKey,roleType:liroleType,page:(MOPG["P"]||0),pageSize:this.pageSize};
+            break;
+            case 'TRADER':
+            case 'PROVIDER':
+                var lsFeild = type==1?"name":type==2?"address":'';
+                server={type:liType,keyword:asKey,field:lsFeild,roleType:liroleType,page:(MOPG["P"]||0),pageSize:this.pageSize};
+            break;
+            default:
+            return
+        }
+        $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=userListQuery" + SUBJOIN_PARA,server,function (res) {
+            waitLoading.hide();
+            if(res.exDesc != null){
+                alert(res.exDesc);
+            }else{
+                var lxList = res.list;
+                switch(ROLETYPE.s){
+                    case 'ADMIN':
+                        if(lxList.length>0){
+                            _this.showList(lxList,res.totalSize);
+                        }else{
+                            if ((MOPG["P"]||0)==0){
+                                _this.totalSize = 0;
+                                sessionStorage.setItem("listTotalSize",_this.totalSize);
+                            }                   
+                            $(".data-list").html("没有找到记录!");
+                            $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                            pageChange.init();
+                        }
+                    break;
+                    case 'TRADER':
+                        if(lxList.length>0){
+                             _this.showList(lxList,res.totalSize); 
+                             $('.see-detail').click(function (e) {
+                                e.preventDefault();
+                                var id = $(this).parents('[data-id]').data('id');
+                                var rt = $(this).parents('[data-rt]').data('rt');
+                               
+                                    _this.pageTurn(id, rt);
+                            });
+                            
+                        }else{
+                            if ((MOPG["P"] || 0) == 0) {
+                                _this.totalSize = 0;
+                                sessionStorage.setItem("listTotalSize", _this.totalSize);
+                            }
+                            $(".data-list").html("没有找到记录!");
+                            $(".pagination").attr({maxPage: _this.totalSize / _this.pageSize, totalLeaf: _this.totalSize});
+                            pageChange.init();
+                        }
+                        if(_this.c1==22){
+                            var html='<span style="margin-right:20px;">供应商总数：'+_this.totalSize+'</span>';
+                            $('.ctrl-info').html(html);
+                        }
+                    break;
+                    case 'PROVIDER':
+                        if(lxList.length>0){
+                            _this.showList(lxList,res.totalSize); 
+                        }else{
+                            if ((MOPG["P"] || 0) == 0) {
+                                _this.totalSize = 0;
+                                sessionStorage.setItem("listTotalSize", _this.totalSize);
+                            }
+                            $(".data-list").html("没有找到记录!");
+                            $(".pagination").attr({maxPage: _this.totalSize / _this.pageSize, totalLeaf: _this.totalSize});
+                            pageChange.init();
+                        }
+                        if(_this.c1==22){
+                            var html='<span style="margin-right:20px;">供应商总数：'+_this.totalSize+'</span>';
+                            $('.ctrl-info').html(html);
+                        }
+                    break;
+                }
+            }
+        });
+
+    },
+    showList:function(lxList,totalSize){
+        var _this = this;
+        var user_type=byNumGetName(USER.roleType);
+        var lsH = '';
+        switch(ROLETYPE.s){
+            case 'ADMIN':
+                lsH = ['<div class="table-css"><table class="table table-bordered table-striped table-hover"><thead><tr>'];
+                lsH[lsH.length] = '<th>用户ID</th><th>登录名</th><th>注册时间</th><th>角色</th><th>余额款</th><th>总积分</th><th>状态</th><th style="width:260px">操作</th></tr></thead><tbody>';
+                for (var i=0; i<lxList.length; i++){
+                    var lo_role = byNumGetName(lxList[i].roleType,this.roleNames);
+                    lsH[lsH.length] = '<tr data-id="'+lxList[i].userId+'" data-rt="'+lxList[i].roleType+'"><td>'+lxList[i].userId+'</td>';
+                    lsH[lsH.length] = '<td>'+lxList[i].userName+'</td>';
+                    lsH[lsH.length] = '<td>'+dateFormat(lxList[i].registerTime)+'</td>';
+                    lsH[lsH.length] = '<td>'+(lo_role?lo_role.n:"未知")+'</td>';
+                    lsH[lsH.length] = '<td>'+lxList[i].totalBalance+'</td>';
+                    lsH[lsH.length] = '<td>'+lxList[i].totalScore+'</td>';              
+                    lsH[lsH.length] = '<td>'+_this.userStatus[lxList[i].status]+'</td>';
+                    lsH[lsH.length] = '<td style="text-align:center">';   
+                    lsH[lsH.length] = '<a href="#this" onclick="showList.resetPWD('+lxList[i].userId+',\''+lxList[i].userName+'\')" class="btn btn-default">重置密码</a> ';
+
+                    lsH[lsH.length] = '<a href="#" class="btn btn-default see-detail">查看详情</a>';
+                    lsH[lsH.length] = '</td></tr>'
+                }
+                lsH[lsH.length] = '</tbody></table></div>';
+                $(".data-list").html(lsH.join(''));
+                $('.see-detail').click(function(e){
+                    e.preventDefault();
+                    var id=$(this).parents('[data-id]').data('id');
+                    var rt=$(this).parents('[data-rt]').data('rt');
+        
+                        _this.pageTurn(id,rt);
+                });
+                if ((MOPG["P"]||0)==0){
+                    _this.totalSize = parseInt(totalSize);
+                    sessionStorage.setItem("listTotalSize",_this.totalSize);
+                }
+                $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                pageChange.init();
+            break;
+            case 'TRADER':
+            case 'PROVIDER':
+                lsH = ['<div class="table-css"><table class="table table-bordered table-striped table-hover"><thead><tr>'];
+                lsH[lsH.length] = '<th>用户ID</th><th>登录名</th><th>注册时间</th><th>角色</th><th>状态</th><th style="width:260px">操作</th></tr></thead><tbody>';
+                for (var i = 0, lo_role = null; i < lxList.length; i++) {
+                    lo_role = byNumGetName(lxList[i].roleType, _this.roleNames);
+                    lsH[lsH.length] = '<tr><td>' + lxList[i].userId + '</td>';
+                    lsH[lsH.length] = '<td>' + lxList[i].userName + '</td>';
+                    lsH[lsH.length] = '<td>' + dateFormat(lxList[i].registerTime) + '</td>';
+                    lsH[lsH.length] = '<td>' + (lo_role ? lo_role.n : "未知") + '</td>';
+                    lsH[lsH.length] = '<td>' + _this.userStatus[lxList[i].status] + '</td>';
+                    lsH[lsH.length] = '<td style="text-align:center">';
+                    lsH[lsH.length] = '<a href="user_edit_provider.html?id='+lxList[i].userId +'" class="btn btn-default" style="margin-right:20px;">查看详情</a>';
+                    if (lo_role.s == "OPERATOR")lsH[lsH.length] = '<a href="product_cloth_list.html?cid=' + lxList[i].userId + '&sName=' + lxList[i].name + '" class="btn btn-default">录入列表</a>';
+                    if (lo_role.s == "SUPPLIER")lsH[lsH.length] = '<a href="product_cloth_list.html?pid=' + lxList[i].userId + '&sName=' + lxList[i].name + '" class="btn btn-default">商品列表</a>';
+                    lsH[lsH.length] = '</td></tr>'
+                }
+                lsH[lsH.length] = '</tbody></table></div>';
+                $(".data-list").html(lsH.join(''));
+                if ((MOPG["P"] || 0) == 0) {
+                    this.totalSize = parseInt(totalSize);
+                    sessionStorage.setItem("listTotalSize", this.totalSize);
+                }
+                $(".pagination").attr({maxPage: this.totalSize / this.pageSize, totalLeaf: this.totalSize});
+                pageChange.init();
+            break;
+        }
+    },
+    pageTurn : function(id,rt){
+        var lsLink='#';
+        var lo_role = byNumGetName(rt,this.roleNames);
+
+        if (lo_role.s=="ADMIN" || lo_role.s=="OPERATION"|| lo_role.s=="FINANCE"|| lo_role.s=="DOCUMENTARY" || lo_role.s=="IMPORTER"){   //管理员
+            lsLink = 'user_edit_info';
+        }else{
+            lsLink='user_edit_'+lo_role.s.toLowerCase();
+        }
+
+        lsLink!="#"&&(location.href=lsLink+'.html?id='+id);
+    },
+    resetPWD:function(aiUserId,asName){
+        if (confirm("确实要重置用户【"+asName+"】的密码为【123456】？")){
+        $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=userMgr" + SUBJOIN_PARA,{
+                op:5,
+                toUserId:aiUserId,
+                userId:USER.userId,
+                newPwd:"E10ADC3949BA59ABBE56E057F20F883E",
+            }, function(res){
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    alert("重置完成!")
+                }
+            });
+        }
+    }
+}
+    window.onload=function(){
+        showList.init();
+    }
+</script>
+</html>

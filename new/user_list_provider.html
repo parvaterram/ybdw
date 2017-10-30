@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    .btn{
+        margin:0px 5px;
+    }
+    .search{
+        display: table;
+        padding: 9px 13px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        background-color: #29c3ff;
+        border: 1px solid #29c3ff;
+        border-radius: 3px;
+        cursor:pointer;
+        
+    }
+    .table-bordered tbody tr .td2{
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!--侧栏 start-->
+    <div class="sidebar" id="sidebar"></div>
+    <!--侧栏 end-->
+    <!--右侧内容 start-->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <!--主体头部 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-header">
+                                <!--面包屑 start-->
+                                <ul class="breadcrumb col-md-6">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>供应商列表</span></li>
+                                </ul>
+                                <!--面包屑 end-->
+                                <div class="breadcrumb col-md-6 column clearfix">
+                                    <div class="col-md-5 column">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control key-name" placeholder="供应商名称">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 column">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control key-address" placeholder="地址">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 column">
+                                        <span class="search" onclick="showList.search()">搜索</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 column clearfix">
+                                    <div class="breadcrumb">
+                                        <div class="group-type"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体头部 end-->
+                    <!--主体内容 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont">
+                                <ul class="pagination ui-pageChange clearfix"></ul>
+                                <div class="pull-right operation-info" style="margin:25px 15px;"><a href="user_edit_provider.html" class="btn btn-primary">新增供应商</a></div>
+                                <div class="data-list clearfix"></div>
+                                <ul class="pagination ui-pageChange clearfix"></ul>
+                            </div> <!-- sys-cont -->
+                        </div>
+                    </div>
+                    <!--主体内容 end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容 end-->
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var showList={
+    pageSize:20,
+    roleNames:PROVIDER_MAJORS.concat(),
+    userStatus:{0:'正常',1:'被禁用'},
+    totalSize:sessionStorage.getItem('listTotalSize')||0,
+    b1:MOPG['B1']||31,
+    c1:MOPG['C1']||22,
+    init:function(){
+        if(ROLETYPE.s=='ADMIN'){
+            $('.operation-info').hide();
+        }
+        this.loadGroup()
+        this.loadList();
+    },
+    loadGroup:function(){
+        var lo_role = {}
+        var loPer = $.extend({},MOPG)
+        var html=''
+        for(var i=0;i<this.roleNames.length;i++){
+            lo_role=this.roleNames[i]
+            loPer.B1=lo_role.t
+            loPer.P=0
+            if(this.b1==lo_role.t){
+                html+='<a class="label label-danger" href="?'+perapara(loPer)+'">'+lo_role.n+'</a>'
+            }else{
+                html+='<a class="label label-default" href="?'+perapara(loPer)+'">'+lo_role.n+'</a>'
+            }
+        }
+        $(".group-type").html(html)
+    },
+    search:function(){
+        var name = $('.key-name').val();
+        var address = $('.key-address').val();
+        if(name==''&&address==''){
+            alert('请输入关键字！');
+        }else{
+            if(name!=''){
+                $('.key-address').val('');
+                MOPG['P']=0;
+                this.loadList(name,1);
+            }else{
+                MOPG['P']=0;
+                this.loadList(address,2);
+            }
+        }
+    },
+    loadList:function(asKey,type){
+        waitLoading.show();
+        var _this = this;
+        var liroleType = this.c1;
+        var liType = (asKey) ? 1 : 2;
+        var lsFeild = type==1?"name":type==2?"address":'';
+        var user_type = byNumGetName(USER.roleType);
+        if(!asKey)asKey='';
+        $.getJSON(SERVER_URL+OPEN_API+'/auth.do?cmd=userListQuery'+SUBJOIN_PARA,{
+            type:liType,
+            catId:this.b1,
+            keyword:asKey,
+            field:lsFeild,
+            roleType:liroleType,
+            page:(MOPG['P']||0),
+            pageSize:this.pageSize
+        },function(res){
+            waitLoading.hide();
+            if(res.exDesc!=null){
+                alert(res.exDesc);
+            }else{
+                var lxList = res.list;
+                if(lxList.length>0){
+                    var lsH=['<div class="panel panel-default table-css"><table class="table table-bordered"><thead><tr>'];
+                        lsH[lsH.length] = '<th style="width:90px;">供应商ID</th><th>供应商名称</th><th>地址</th><th>主营业务</th><th style="width:240px">操作</th></tr></thead><tbody>';
+                        for (var i = 0; i < lxList.length; i++) {
+                            var lo_role = byNumGetName(lxList[i].roleType, this.roleNames);
+                            lsH[lsH.length] = '<tr data-id="' + lxList[i].userId + '" data-rt="' + lxList[i].roleType + '"><td>' + lxList[i].userId + '</td>';
+                            lsH[lsH.length] = '<td class="td2">' + lxList[i].name + '</td>';
+                            lsH[lsH.length] = '<td>' + lxList[i].address + '</td>';
+                            lsH[lsH.length] = '<td>' + lxList[i].majorList.map(function(arg){
+                                return arg.major
+                            }).join(' , ') + '</td>';
+                            lsH[lsH.length] = '<td style="text-align:center">';
+                            if(ROLETYPE.s=='OPERATOR'){
+                                lsH[lsH.length] = '<a href="product_cloth_edit.html?pid='+lxList[i].userId+'" class="btn btn-default">新增</a>';
+                            }
+                            lsH[lsH.length] = '<a href="product_cloth_list.html?pid='+lxList[i].userId+'&sName='+lxList[i].name+'" class="btn btn-default">列表</a>';
+                            lsH[lsH.length] = '<a href="user_edit_provider.html?id='+lxList[i].userId+'" class="btn btn-default see-detail">详情</a>';
+                            lsH[lsH.length] = '</td></tr>'
+                        }
+                        lsH[lsH.length] = '</tbody></table></div>';
+                        $(".data-list").html(lsH.join(''));
+                        $('.table-bordered tbody tr .td2').on('click',function(){
+                            location.href = 'user_edit_provider.html?id=' + $(this).parent('tr').data('id');
+                        });
+                        if ((MOPG["P"] || 0) == 0) {
+                            _this.totalSize = parseInt(res.totalSize);
+                            sessionStorage.setItem("listTotalSize", _this.totalSize);
+                        }
+                        $(".pagination").attr({maxPage: _this.totalSize / _this.pageSize, totalLeaf: _this.totalSize});
+                        pageChange.init();
+                }else{
+                    if ((MOPG["P"] || 0) == 0) {
+                        _this.totalSize = 0;
+                        sessionStorage.setItem("listTotalSize", _this.totalSize);
+                    }
+                    $(".data-list").html("没有找到记录!");
+                    $(".pagination").attr({maxPage: _this.totalSize / _this.pageSize, totalLeaf: _this.totalSize});
+                    pageChange.init();
+                }
+            }
+        });
+    }
+}
+    window.onload=function(){
+        showList.init();
+    }
+</script>
+</html>

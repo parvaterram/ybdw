@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        th{
+            text-align:center;
+        }
+        .control-label{
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!--侧栏 start-->
+    <div class="sidebar" id="sidebar"></div>
+    <!--侧栏 end-->
+    <!--右侧内容 start-->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12 col-md-12">
+                    <!--主体头部 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-header">
+                                <!--面包屑 start-->
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>修改资料</span></li>
+                                </ul>
+                                <!--面包屑 end-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体头部 end-->
+                    <!--主体内容 start-->
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="page-body sys-cont">
+                                <div class="panel panel-default feature-cont clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--主体内容 end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容 end-->
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript">
+var myInfo={
+    uid:MOPG['id']||USER.userId,
+    userInfo:$.extend({},TOUSER),
+    init:function(){
+        this.loadCate();
+    },
+    loadCate:function(){
+        var _this = this;
+        $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=getUserDetail",{
+            userId:this.uid,
+            appName:3
+        },function (res) {
+            if(res.exDesc!=null)
+            {
+                alert(res.exDesc);
+            }else{
+                _this.userInfo = res;
+                myInfo.showInfo(res);
+                uploadIMG.init();
+            }
+
+        })
+    },
+    showInfo : function (ax) {
+        var html = '<div class="panel-body"  style="margin-top: 20px">' ;
+        html += '<div class="col-md-6">';
+        html += '<img src="img/edit.png" style="width: 300px;margin-left: 160px;margin-top: 50px;">';
+        html += '</div>';
+        html += '<div class="col-md-6"> <div class="form-group col-md-12"><label for="nickName" class="col-md-3 control-label">昵称</label>';
+        html += '<div class="col-md-6 sto-info"><input type="text" value="'+(ax.nickName||"")+'" class="form-control nickName"  placeholder="输入昵称"></div></div>'; html += '<div class="form-group col-md-12"><label for="img" class="col-md-3 control-label">头像</label>';
+        html += '<div class="col-md-6 sto-info ">';
+        html += '<img class="ui-upload headPortrait img-thumbnail" title="点击上传头像，建议大小 W200 * H200px。" imageSrc="'+(ax.headPortrait||'')+'" imageType="2" imageSize="2" src="'+(ax.headPortrait?getPicUrlForCode(ax.headPortrait,2,2):'img/user.jpg')+'"';
+        html += ' style="width:100px;height:100px;" /> ';
+        html += '</div></div>';
+
+        html += '<div class="form-group col-md-12"><label for="sex" class="col-md-3 control-label">性别</label>';
+        html += '<div class="col-md-6  sto-info"><select class="form-control sex"><option '+ (ax.sex==1?'selected':'') +' value="1">男</option><option '+ (ax.sex==0?'selected':'') +' value="0">女</option></select></div></div>';
+        html += '<div class="form-group col-md-12"><label for="email" class="col-md-3 control-label">邮箱</label>';
+        html += '<div class="col-md-6  sto-info"><input type="text"  value="'+ (ax.email||"")+'" class="form-control email" id="Mail"  placeholder="输入邮箱"></div></div>';
+        html += '<div class="form-group col-md-12"><label for="tel" class="col-md-3 control-label">电话号码</label>';
+        html += '<div class="col-md-6  sto-info"><input type="text" value="'+ (ax.tel||"")+'" class="form-control tel" placeholder="输入电话号码"></div></div>';
+        html += '<div class="form-group col-md-12"><label for="tel" class="col-md-3 control-label"></label>';
+        html += '<div class="col-md-6"><button type="button" onclick="myInfo.modify()" class="btn btn-success btn-block pull-right submit-change" style="width: 224px;height:32px; margin-bottom: 30px">修改</button></div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        $(".feature-cont").html(html);
+    },
+    modify:function () {
+        var email=$(".email").val();
+        var tel=$(".tel").val();
+        var emReg=/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        var telReg=/^1[3|4|5|7|8]\d{9}$/;
+        if (email == ''||!emReg.test(email)) {
+            showElTip(".email", '请输入有效的Email！');
+            return false;
+        }
+        if(tel==''){
+            showElTip(".tel", "请填写电话号码！");
+            return false;
+        }
+        var nickName=$(".nickName").val();
+        var sex=$(".sex").val();
+        var headPortrait=$(".headPortrait").attr("imageSrc")=="img/user.jpg"?"":$(".headPortrait").attr("imageSrc");
+        var updateTime=(new Date()).getTime();
+        $(this.userInfo).attr({
+            nickName:nickName,
+            sex:sex,
+            tel:tel,
+            email:email,
+            headPortrait:headPortrait,
+            updateTime:updateTime
+        });
+
+        var _this=this;
+        if(confirm("确认修改？"))
+        {
+            waitLoading.show();
+            $.post(SERVER_URL + OPEN_API + "/auth.do?cmd=userMgr"+SUBJOIN_PARA+"&toUserId="+this.uid,{op:7,userInfo:JSON.stringify(this.userInfo)},function (res) {
+                waitLoading.hide();
+                if (res.exDesc!=null){
+                    alert(res.exDesc);
+                }else{
+                    location.reload();
+                }
+            },"json");
+        }
+    }
+}
+    window.onload=function(){
+        myInfo.init();
+    }
+</script>
+</html>

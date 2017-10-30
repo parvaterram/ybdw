@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <link rel="icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link href="css/frames_page.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .breadcrumb .search-input{
+            width:15%;
+            float: left;
+        }
+        .breadcrumb .column{
+            padding:0 8px;
+        }
+        .btn{
+            margin-right:10px;
+        }
+        .col-product{
+            width:310px;
+        }
+        .col-cost,
+        .col-commission,
+        .col-price,
+        .col-recom{
+            width:130px;
+        }
+        .modal-footer .btn+.btn {
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+        .btn-cub{
+            display: table;
+            padding: 9px 13px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            background-color: #29c3ff;
+            border: 1px solid #29c3ff;
+            border-radius: 3px;
+            cursor:pointer;
+        }
+        .table>tbody>tr>td:nth-child(2),.table>tbody>tr>td:nth-child(3),.table>tbody>tr>td:nth-child(4),.table>tbody>tr>td:nth-child(5){
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container"></div>
+</header>
+<!--/HEADER -->
+<section id="page">
+    <div class="sidebar" id="sidebar"></div>
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <ul class="breadcrumb col-md-8">
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        <a href="#" class="home-page-bread">首页</a>
+                                    </li>
+                                    <li class="active"><span class="other-info"></span><span>商品列表</span></li>
+                                </ul>
+                                 <div class="col-md-12 column clearfix">
+                                    <div class="breadcrumb">
+                                        <div class="group-type"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 column clearfix">
+                                    <div class="col-md-12 breadcrumb">
+                                        <div class="clearfix list-unstyled" style="float:left;width:30%;height:37px;display: inline-flex;line-height:34px;">
+                                            <div class="laydate-icon" id="startDate" style="width:120px; margin-right:10px;display:inline-block;height: 34px;line-height: 34px;"></div>至
+                                            <div class="laydate-icon" id="endDate" style="width:120px; margin-left:10px;display:inline-block;height: 34px;line-height: 34px;"></div>
+                                        </div>
+                                       <div class="search-input column">
+                                            <div class="input-grooup">
+                                                <input type="text" class="form-control key-productId" placeholder="商品ID" style="border-radius:0;">
+                                            </div>
+                                       </div>
+                                       <div class="search-input column">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control key-provider" placeholder="供应商名称">
+                                            </div>
+                                        </div>
+                                        <div class="search-input column">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control key-productName" placeholder="品名">
+                                            </div>
+                                        </div>
+                                        <div class="search-input column">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control key-code" placeholder="色卡编号">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 column">
+                                            <span class="btn-cub search">搜索</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- page-head -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-body sys-cont"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="navbar clearfix" id="footer">
+    <div class="container"></div>
+</footer>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:150px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel" style="font-size: 18px;font-weight: bold">
+                    填写理由
+                </h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/frames_page.js"></script>
+<script type="text/javascript" src="plug/laydate/laydate.js"></script>
+<script>
+    var productReview = {
+        pageSize:15,
+        liProStatus:0,
+        roleNames:PRODUCT_STATUS.concat(),
+        catList:PRODUCT_TYPE,
+        totalSize:sessionStorage.getItem("totalSize")||0,
+        pid:MOPG['pid']||'',
+        oid:MOPG['oid']||'',
+        sName:MOPG['sName']||'',
+        init:function () {
+            this.loadGroup();
+            this.creatBase();
+            this.addSupplierName();
+            laydate(this.startDate);
+            laydate(this.endDate);
+        },
+        addSupplierName:function(){
+            if(this.sName != ''){
+                var name = decodeURI(this.sName) + '的商品列表';
+                $('.breadcrumb .active span:eq(1)').html(name);
+            }
+            if(this.pid!='')$(".key-provider").hide();
+        },
+        loadGroup : function(){
+            var c1 = MOPG["C1"]||0;
+            var html = '';
+            var lo_role={};
+            var loPer = $.extend({},MOPG);
+            var isAll = false;
+            for(var i=0;i<this.roleNames.length;i++){
+                if(this.roleNames[i].n == "全部"){
+                    isAll = true;
+                    break;
+                }
+            }
+            if(!isAll){
+                this.roleNames.push({t:-1,n:"全部",s:"ALL"});
+            }
+            for (var i=0;i<this.roleNames.length;i++){
+                lo_role=this.roleNames[i];
+                loPer.C1 = lo_role.t;
+                loPer.P = 0;
+                if (c1==lo_role.t){
+                    html += '<a class="label label-danger"  href="?'+ perapara(loPer) +'">'+lo_role.n+'</a>';
+                }else{
+                    html += '<a class="label label-default"  href="?'+ perapara(loPer) +'">'+lo_role.n+'</a>';
+                }
+            }
+            if(this.pid){html+='<a href="product_cloth_edit.html?pid='+this.pid+'" class="btn btn-default pull-right">新增商品</a>';}
+            $(".group-type").html(html);
+        },
+        creatBase : function(){
+            var _this=this;
+            var html='';
+                html += '<div class="clearfix data-list"></div>';
+                html += '<ul  class="pagination ui-pageChange clearfix"></ul>';
+            $(".sys-cont").html(html);
+            $(".data-list").on('click','.modify-status',function(){
+                var li_status=$(this).data("status");
+                var li_id=$(this).data("id");
+                _this.modifyStatus({id:li_id,status:li_status});
+            });
+            $(".search").on('click',function(){
+                var productId = $(".key-productId").val();
+                if(productId==''){
+                    _this.searchList();
+                }else{
+                    $(".key-provider").val('');
+                    $(".key-productName").val('');
+                    $(".key-code").val('');
+                    _this.checkProduct(productId);
+                }
+            });
+            /*
+            $('.data-list').on('click','.btn',function(){
+                var $this=$(this);
+                var pid=$this.parents('[data-pid]').data('pid');
+                if($this.hasClass('check-detail')){
+                    location.href='productDetail.html?id='+pid;
+                }else if($this.hasClass('action-btn')){
+                    if($this.hasClass('pass-btn')){//审核通过
+                        _this.liProStatus=0;
+                    }else if($this.hasClass('nopass-btn')){//审核不通过
+                        _this.liProStatus=4;
+                    }else if($this.hasClass('sold-out-btn')){//下架商品
+                        _this.liProStatus=1;
+                    }else if($this.hasClass('putaway-btn')){//上架商品
+                        _this.liProStatus=0;
+                    }else if($this.hasClass('recover-btn')){//恢复成待审核
+                        _this.liProStatus=2;
+                    }
+                    if(_this.liProStatus==0)
+                    {
+                        _this.alertConfirm(pid);
+                    }else
+                    {
+                        _this.changeProductStatus(pid);//弹出modal
+                    }
+                }
+            });
+            */
+            this.loadList();
+        },
+        modifyStatus: function (ao) {
+            var status = ao.status || 0;
+            var id = ao.id || 0;
+            var type=MOPG["C2"]||6;
+            var _this = this;
+            var show = [{status:0,n:"商品已重新提交审核！"},{status:1,n:"商品已上架!"},{status:2,n:"商品已下架！"},{status:3,n:"商品上架不通过！"}]
+            $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=modifyProductStatus" + SUBJOIN_PARA, {
+                productType:type,
+                status: status,
+                productId: id
+            }, function (res) {
+                if (res.exDesc != null) {
+                    alert(res.exDesc);
+                } else {
+                    for(var i=0;i<show.length;i++){
+                        if(ao.status == show[i].status){
+                            alert(show[i].n);
+                            break;
+                        }
+                    }
+                    _this.loadList();
+                }
+            })
+        },
+        checkProduct:function(id){
+            var liType=MOPG["C2"]||6;
+            var _this = this;
+            waitLoading.show();
+            $.getJSON(SERVER_URL + OPEN_API + "/show.do?cmd=queryProductDetail" + SUBJOIN_PARA,{productType:liType,productId:id},function(res){
+                waitLoading.hide();
+                if(res.exDesc != null){
+                    alert(res.exDesc);
+                }else{
+                    var items = $.extend({},res);
+                    items.image = res.skuList.length==0?'':res.skuList[0].length==0? '' : res.skuList[0].images.length>0 ?res.skuList[0].images[0].image:'';
+                    _this.showList([items]);
+                    if ((MOPG["P"]||0)==0){
+                        _this.totalSize = parseInt(res.totalSize);
+                        sessionStorage.setItem("totalSize",_this.totalSize);
+                    }
+                    $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                    pageChange.init();
+                }
+            })
+        },
+        searchList:function(){
+            var liProStatus = MOPG["C1"]||0;
+            if(liProStatus==-1) liProStatus = '';
+            var liType=MOPG["C2"]||6;
+            var _this = this;
+            var productId = $(".key-productId").val();
+            var provider = $(".key-provider").val()||decodeURI(this.sName);
+            var productCode = $(".key-code").val();
+            var productName = $(".key-productName").val();
+            var startTime = MOPG["D1"]?dateFormat(MOPG["D1"],"yyyy-MM-dd")+" 00:00:00":'';
+            var endTime   = MOPG["D2"]?dateFormat(MOPG["D2"],"yyyy-MM-dd")+" 23:59:59":'';
+            waitLoading.show();
+            $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=queryClothList" + SUBJOIN_PARA,{
+                queryType:3,
+                productType:liType,
+                provider:provider,
+                productId:productId,
+                productCode:productCode,
+                productName:productName,
+                startTime:startTime,
+                endTime:endTime,
+                page:(MOPG["p"]||0),
+                pageSize:this.pageSize,
+                status:liProStatus,
+                providerId:this.pid,
+                creatorId:this.oid
+            },function(res){
+                waitLoading.hide();
+                if(res.exDesc != null){
+                    alert(res.exDesc);
+                }else{
+                    if(res.list.length > 0){
+                        _this.showList(res.list);
+                        if ((MOPG["P"]||0)==0){
+                            _this.totalSize = parseInt(res.totalSize);
+                            sessionStorage.setItem("totalSize",_this.totalSize);
+                        }
+                        $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                        pageChange.init();
+                    }else{
+                        if ((MOPG["P"]||0)==0){
+                            _this.totalSize = 0;
+                            sessionStorage.setItem("totalSize",_this.totalSize);
+                        }
+                        $('.data-list').html("<div class='col-md-12'>没有找到记录！</div>");
+                        $(".bulk-action").css('display','none');
+                        $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                        pageChange.init();
+
+                    }
+                }
+            })
+        },
+        loadList:function () {
+            var liProStatus = MOPG["C1"]||0;
+            if(liProStatus==-1) liProStatus = '';
+            var liType=MOPG["C2"]||6;
+            waitLoading.show();
+            var _this = this;
+            var startTime = MOPG["D1"]?dateFormat(MOPG["D1"],"yyyy-MM-dd")+" 00:00:00":'';
+            var endTime   = MOPG["D2"]?dateFormat(MOPG["D2"],"yyyy-MM-dd")+" 23:59:59":'';
+            var queryType = startTime?3:0;
+            var html='',lsH='';
+            $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=queryClothList" + SUBJOIN_PARA,{queryType:queryType,productType:liType,creatorId:this.oid,providerId:this.pid, status:liProStatus,startTime:startTime,endTime:endTime, page:(MOPG["P"]||0), pageSize:this.pageSize},function (res) {
+                waitLoading.hide();
+                if(res.exDesc != null){
+                    alert(res.exDesc);
+                }else{
+                    if(res.list.length > 0){
+                        _this.showList(res.list);
+                        if ((MOPG["P"]||0)==0){
+                            _this.totalSize = parseInt(res.totalSize);
+                            sessionStorage.setItem("totalSize",_this.totalSize);
+                        }
+                        $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                        pageChange.init();
+                    }else{
+                        if ((MOPG["P"]||0)==0){
+                            _this.totalSize = 0;
+                            sessionStorage.setItem("totalSize",_this.totalSize);
+                        }
+                        html="<div class='col-md-12'>没有找到记录！</div>";
+                        $('.data-list').html(html);
+                        $(".bulk-action").css('display','none');
+                        $(".pagination").attr({maxPage:_this.totalSize/_this.pageSize,totalLeaf:_this.totalSize});
+                        pageChange.init();
+                    }
+                    var html='<span style="margin-right:20px;">SPU总数：'+_this.totalSize+'</span><span>SKU总数：'+_this.totalSize*15+'</span>';
+                    $('.ctrl-info').html(html);
+                }
+            });
+        },
+        showList: function (ar) {
+            var items = ar || [];
+            var html = '';
+            html = '<div class="panel panel-default table-css"><table class="table table-bordered">';
+            html += '<colgroup><col class="table-col-1"><col class="table-col-2"><col class="table-col-3"><col class="table-col-4"><col class="table-col-5"><col class="table-col-6"><col class="table-col-7"><col class="table-col-8"><col class="table-col-9"><col class="table-col-10"><col class="table-col-11"><col class="table-col-12"></colgroup>';
+            html += '<thead><tr class="thead-tbl-grade"><th>产品图片</th><th>供应商</th><th>品名</th><th>SPUID</th><th>SPU编号</th><th>状态</th><th>大货价</th><th>米样价</th><th>录入时间</th><th>操作</th></tr></thead>';
+            html += '<tbody>';
+            for (var i = 0, item = null, type = '', ingredient = [], width = '', weight = '', price1 = 0, price2 = 0; i < items.length; i++) {
+                item = items[i];
+                type = byNumGetName(item.productType || 0, PRODUCT_TYPE);
+                ingredient = item.ingredientList || [];
+                for (var j = 0, lo_item = null; j < item.priceList.length; j++) {
+                    lo_item = item.priceList[j];
+                    if (lo_item.priceType == 1) {
+                        price1 = lo_item.salePrice;
+                    } else if (lo_item.priceType == 2) {
+                        price2 = lo_item.salePrice;
+                    }
+                }
+                var status = byNumGetName(item.status,this.roleNames);
+                html += '<tr><td><img src="' + (item.image != '' ? getPicUrlForCode(item.image,1,0) : '') + '" width="100" height="100" alt=""></td><td data-pid='+item.providerId+' data-name='+item.providerName+'>'+(item.providerName||'')+'</td><td data-id='+item.productId+'>' + (item.productName || '') + '</td>' +'<td data-id='+item.productId+'>'+(item.productId||'')+'</td>'+
+                        '<td data-id='+item.productId+'>' + item.productCode + '</td>' +
+                        '<td>'+status.n+'</td>'+
+                        '<td>' + formatMoney(price1) + '</td><td>' + formatMoney(price2) + '</td><td>' + dateFormat(item.createTime) + '</td><td>';
+                if(status.s == "COMFIRM"){
+                    if(ROLETYPE.s=='OPERATION'||ROLETYPE.s=='ADMIN'){
+                        html += '<button class="btn btn-default modify-status" data-id="'+item.productId+'" data-status="1">上架</button>' + 
+                            '<button class="btn btn-default modify-status" data-id="'+item.productId+'" data-status="3">不通过</button>';
+                    }                  
+                }else if(status.s == "SALE"){
+                    html += '<button class="btn btn-default modify-status" data-id="'+item.productId+'" data-status="2">下架</button>';
+                }else if(status.s == "SOLD"){
+                    html+='<button class="btn btn-default modify-status" data-id="'+item.productId+'" data-status="1">重新上架</button>';
+                }else if(status.s == "NOPASS"){
+                    html += '<button class="btn btn-default modify-status" data-id="'+item.productId+'" data-status="0">重新提交审核</button>';
+                }
+                    html += '<a href="product_cloth_edit.html?id='+item.productId+'" class="btn btn-default">详情</a></td></tr>';
+            }
+            html += '</tbody></table></div>';
+                $(".data-list").html(html);
+                $('.table>tbody>tr>td:eq(1)').on('click',function(){
+                    location.href='product_cloth_list.html?pid='+$(this).data('pid')+'&sName='+$(this).data('name');
+                });
+                $('.table>tbody>tr>td:eq(2),.table>tbody>tr>td:eq(3),.table>tbody>tr>td:eq(4)').on('click',function(){
+                      location.href = 'product_cloth_edit.html?id='+$(this).data('id');
+                });
+        },
+        alertConfirm:function (id) {
+            var _this = this;
+            if(confirm('确认通过？')){
+                $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=modifyProductStatus" + SUBJOIN_PARA, {
+                    status: this.liProStatus,
+                    productId: id,
+                }, function (res) {
+                    if (res.exDesc != null) {
+                        alert(res.exDesc);
+                    } else {
+                        _this.loadList();
+                    }
+                })
+            }
+        },
+        changeProductStatus: function (id) {
+            var html= '<div  style="margin-left: 42px;"><textarea rows="3"  class="reason" cols="60" style="padding-left: 10px"></textarea></div>';
+            $(".modal-body").html(html);
+            var source = '<button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 0px 25px 0px 25px;">取消</button> <button type="button"  data-pid="'+id+'"  onclick="home.commitReason(this)" class="btn btn-danger" style="padding: 0px 25px 0px 25px;">确认</button>';
+            $(".modal-footer").html(source);
+
+        },
+        commitReason:function (e) {
+            var _this = this;
+            var id = $(e).data('pid');
+            var reason = $('.reason').val();
+            if(reason){
+                $.getJSON(SERVER_URL + OPEN_API + "/auth.do?cmd=modifyProductStatus" + SUBJOIN_PARA, {
+                    status: this.liProStatus,
+                    productId: id,
+                    reason:reason
+                }, function (res) {
+                    if (res.exDesc != null) {
+                        alert(res.exDesc);
+                    } else {
+                        $('#myModal').modal('hide');
+                          _this.loadList();
+                    }
+                })
+            }else{
+                showElTip('.reason','理由不能为空');
+                return false;
+            }
+
+
+        },
+        startDate : {
+            elem: '#startDate',
+            format: 'YYYY-MM-DD',
+            start: MOPG["D1"]||'',
+            min:'',
+            max:MOPG["D2"]||laydate.now(),
+            isclear: false,
+            istoday: false,
+            choose: function(datas){
+                this.start = datas;
+                productReview.changeDate();
+            }
+        },
+        endDate : {
+            elem: '#endDate',
+            format: 'YYYY-MM-DD',
+            start: MOPG["D2"]||dateFormat(new Date(),"yyyy-MM-dd"),
+            min:MOPG["D1"]||'',
+            max:laydate.now(),
+            isclear: false,
+            istoday: false,
+            choose: function (datas) {
+                this.start = datas;
+                productReview.changeDate();
+            }
+        },
+        changeDate : function (){
+            var loPer = $.extend({},MOPG);
+            loPer.D1 = productReview.startDate.start;
+            loPer.D2 = productReview.endDate.start;
+            location.href = '?' + perapara(loPer);
+        }
+    }
+    onload = function(){
+        productReview.init();
+        $("#startDate").html(productReview.startDate.start);
+        $("#endDate").html(productReview.endDate.start);
+    }
+</script>
+</body>
+</html>
